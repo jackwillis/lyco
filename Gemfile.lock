@@ -14,6 +14,9 @@ GEM
     multi_json (1.12.1)
     public_suffix (2.0.5)
     rack (1.6.5)
+    rack-canonical-host (0.2.2)
+      addressable (> 0, < 3)
+      rack (>= 1.0.0, < 3)
     rack-protection (1.5.3)
       rack
     sinatra (1.4.8)
@@ -39,6 +42,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  rack-canonical-host
   sinatra (~> 1.4.8)
   sinatra-websocket
   twilio-ruby (~> 4.13.0)
