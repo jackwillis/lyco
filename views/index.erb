@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mass texting tool</title>
+
+  <style>
+    body {
+      font: 12pt/16pt "Open Sans", "Droid Sans", "Segoe UI", "Helvetica Neue", sans-serif;
+      max-width: 42em;
+      margin: auto;
+    }
+    label { display: block; margin-top: 1em; }
+    textarea { width: 20em; height: 10em; }
+    .required, .consider { font-weight: bold; }
+    .consider { text-align: center; }
+    input[type=submit] {
+      display: block; margin: 2em auto; text-align: center;
+      padding: 1em; font-size: 110%; font-weight: bold;
+    }
+    #logs {
+      height: 20em;
+      overflow: scroll;
+    }
+  </style>
+
+<script
+			  src="https://code.jquery.com/jquery-3.1.1.min.js"
+			  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+			  crossorigin="anonymous"></script>
+		
+  <script>
+    var ws           = new WebSocket("ws://" + window.location.host + "/ws");
+        ws.onopen    = function()  { console.log('websocket opened'); };
+        ws.onclose   = function()  { console.log('websocket closed'); }
+        ws.onmessage = function(m) {
+          var l = $("#logs");
+
+          l.append(m.data);
+          l.scrollTop(l.prop("scrollHeight"));
+        };
+
+    $(function() {
+      $("#send_button").on("click", function(e) {
+        e.preventDefault();
+
+/*
+        var potNums = $("#numbers").html();
+        var numPotNums = (potNums.match(/^.*?\S/gm) || []).length;
+
+        if (numPotNums == 0) {
+          alert("No numbers to send to!");
+          return;
+        }
+*/
+//        if ($("#message0").html().match(/\s*/)) {
+/*          alert("No message!");
+          return;
+        }
+
+        var confirmMsg = "Really send text(s) to " + numPotNums + " potential numbers?";
+
+        if (!confirm(confirmMsg)) return;
+ */
+        $.post("/", $("#masstext").serialize());
+      });
+    
+    });
+
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>Mass texting tool</h1>
+    <p>
+      Contact: <tt>Jack Willis &lt;jacksoncwillis@gmail.com&gt;</tt> to check account balance.
+      <br>Please use as needed for SA-related mass texting.
+    </p>
+
+  <p>Using outgoing number: <%= @number %></p>
+
+  <form name="masstext" id="masstext" action="#">
+    <fieldset>
+      <label for="numbers" class="required">Numbers to text (required)</label>
+      <textarea id="numbers" name="numbers"></textarea>
+
+      <p>
+         Copy and paste a list of numbers here (e.g. from a spreadsheet), each on a new line.
+         Duplicates and invalid numbers will be ignored.
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <label for="message0" class="required">Message part 1 (required)</label>
+      <textarea id="message0" name="message[]"></textarea>
+
+      <p>Use more than one part if your message goes over the limit for a single text message (160 characters.)</p>
+
+      <label for="message1">Message part 2 (optional)</label>
+      <textarea id="message1" name="message[]"></textarea>
+
+      <label for="message2">Message part 3 (optional)</label>
+      <textarea id="message2" name="message[]"></textarea>
+    </fieldset>
+
+    <p class="consider">
+      Consider sending a test message to yourself before sending to the entire list.
+    </p>
+
+    <p>
+      Estimated cost: $<span id="cost">0.00</span>
+    </p>
+
+    <input id="send_button" type="submit" value="Send texts!">
+  </form>
+
+  <h2>Logs</h2>
+  <pre id="logs"></pre>
+
+</html>
