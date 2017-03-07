@@ -29,7 +29,8 @@
 			  crossorigin="anonymous"></script>
 		
   <script>
-    var ws           = new WebSocket("ws://" + window.location.host + "/ws");
+    var wsProtocol = window.location.protocol == "https:" ? "wss:" : "ws:";
+    var ws           = new WebSocket(wsProtocol + "//" + window.location.host + "/ws");
         ws.onopen    = function()  { console.log('websocket opened'); };
         ws.onclose   = function()  { console.log('websocket closed'); }
         ws.onmessage = function(m) {
