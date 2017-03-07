@@ -1,8 +1,6 @@
 require "sinatra"
 require "sinatra-websocket"
-require "bcrypt"
 
-set :app_pass, BCrypt::Password.new(ENV["LYCO_SECRET"])
 set :sockets, []
 
 def send_ws(msg)
@@ -16,10 +14,6 @@ end
 def process_texts(params)
   10.times do |n| send_ws "Processing text #{n}\n"; sleep 0.1; end
   send_ws "Done\n"
-end
-
-use Rack::Auth::Basic do |username, password|
-  settings.app_pass == (username + ":" + password)
 end
 
 get "/" do
