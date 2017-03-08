@@ -3,6 +3,8 @@ require "sinatra-websocket"
 
 require_relative "texting"
 
+set :static, true # serve assets from public/
+
 set :sockets, []
 
 def send_ws(msg)

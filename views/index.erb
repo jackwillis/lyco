@@ -2,26 +2,8 @@
 <html>
 <head>
   <title>Mass texting tool</title>
-
-  <style>
-    body {
-      font: 12pt/16pt "Open Sans", "Droid Sans", "Segoe UI", "Helvetica Neue", sans-serif;
-      max-width: 42em;
-      margin: auto;
-    }
-    label { display: block; margin-top: 1em; }
-    textarea { width: 20em; height: 10em; }
-    .required, .consider { font-weight: bold; }
-    .consider { text-align: center; }
-    input[type=submit] {
-      display: block; margin: 2em auto; text-align: center;
-      padding: 1em; font-size: 110%; font-weight: bold;
-    }
-    #logs {
-      height: 20em;
-      overflow: scroll;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="lyco.css" rel="stylesheet">
 
 <script
 			  src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -74,8 +56,8 @@
   <header>
     <h1>Mass texting tool</h1>
     <p>
-      Contact: <tt>Jack Willis &lt;jacksoncwillis@gmail.com&gt;</tt> to check account balance.
-      <br>Please use as needed for SA-related mass texting.
+      Contact Jack Willis to check account balance.
+      Please use as needed for SA-related mass texting.
     </p>
 
   <p>Using outgoing number: <%= @number %></p>
@@ -83,25 +65,34 @@
   <form name="masstext" id="masstext" action="#">
     <fieldset>
       <label for="numbers" class="required">Numbers to text (required)</label>
-      <textarea id="numbers" name="numbers"></textarea>
-
-      <p>
-         Copy and paste a list of numbers here (e.g. from a spreadsheet), each on a new line.
-         Duplicates and invalid numbers will be ignored.
-      </p>
+      <figure>
+        <textarea id="numbers" name="numbers"></textarea>
+        <p>
+          Copy and paste a list of numbers here (e.g. from a spreadsheet), each on a new line.
+          Duplicates and invalid numbers will be ignored.
+        </p>
+      </figure>
     </fieldset>
 
     <fieldset>
       <label for="message0" class="required">Message part 1 (required)</label>
-      <textarea id="message0" name="message[]"></textarea>
-
-      <p>Use more than one part if your message goes over the limit for a single text message (160 characters.)</p>
+      <figure>
+        <textarea id="message0" name="message[]"></textarea>
+        <p>
+          Use more than one part if your message goes over the limit
+          for a single text message (160 characters.)
+        </p>
+      </figure>
 
       <label for="message1">Message part 2 (optional)</label>
-      <textarea id="message1" name="message[]"></textarea>
+      <figure>
+        <textarea id="message1" name="message[]"></textarea>
+      </figure>
 
       <label for="message2">Message part 3 (optional)</label>
-      <textarea id="message2" name="message[]"></textarea>
+      <figure>
+        <textarea id="message2" name="message[]"></textarea>
+      </figure>
     </fieldset>
 
     <p class="consider">
