@@ -1,6 +1,8 @@
 require "sinatra"
 require "sinatra-websocket"
 
+require_relative "texting"
+
 set :sockets, []
 
 def send_ws(msg)
@@ -11,24 +13,24 @@ def send_ws(msg)
   end
 end
 
-def process_texts(params)
-  10.times do |n| send_ws "Processing text #{n}\n"; sleep 0.1; end
-  send_ws "Done\n"
-end
-
 get "/" do
   erb :index
 end
 
 post "/" do
-  Thread.new { process_texts(params)  }
+  Thread.new do
+    process_texts(params) do |chunk|
+      send_ws(chunk)
+    end
+  end
+
   204
 end
 
 get "/ws" do
   request.websocket do |ws|
     ws.onopen do
-      ws.send("No logs to show\n")
+      ws.send("Connected\n")
       settings.sockets << ws
     end
 
