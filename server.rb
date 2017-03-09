@@ -3,6 +3,12 @@ require "sinatra-websocket"
 
 require_relative "texting"
 
+class Hash
+  def require(keys)
+    Hash[keys.uniq.map { |k| [k, self[k] ] }]
+  end
+end
+
 set :static, true # serve assets from public/
 
 set :sockets, []
@@ -20,6 +26,10 @@ get "/" do
 end
 
 post "/" do
+  safe_params = params.require(%i[
+    numbers message
+  ])
+
   Thread.new do
     process_texts(params) do |chunk|
       send_ws(chunk)

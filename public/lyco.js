@@ -21,7 +21,7 @@ $(function() {
       checkWs();
     };
     window.ws.onmessage = function(msg) {
-      appendLog(msg.data);
+      if (msg.data !== "") appendLog(msg.data);
     };
   }
 
