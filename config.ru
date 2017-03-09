@@ -1,4 +1,4 @@
-require_relative "lycopersicanthropy"
+require_relative "server"
 
 require "rack-canonical-host"
 require "bcrypt"
