@@ -1,6 +1,13 @@
 $(function() {
   var COST_PER_TEXT = 0.0075;
 
+  function appendLog(logChunk) {
+    var l = $("#logs");
+
+    l.append(logChunk);
+    l.scrollTop(l.prop("scrollHeight"));
+  }
+
   window.ws = null;
 
   function setWs() {
@@ -14,10 +21,7 @@ $(function() {
       checkWs();
     };
     window.ws.onmessage = function(msg) {
-      var l = $("#logs");
-
-      l.append(msg.data);
-      l.scrollTop(l.prop("scrollHeight"));
+      appendLog(msg.data);
     };
   }
 
@@ -37,32 +41,38 @@ $(function() {
     return $(querySelector)[0].value.trim().length === 0;
   }
 
-  function validateMassTexting(successCallback, failureCallback) {
+  function validateForm() {
     var potNums = getPotentialNumbers();
 
     if (potNums === 0) {
-      failureCallback("Numbers list is empty!");
-      return;
+      alert("Numbers list is empty!");
+      return false;
     }
 
     if (textareaIsEmpty("#message0")) {
-      failureCallback("Message part 1 is empty!");
-      return;
+      alert("Message part 1 is empty!");
+      return false;
     }
 
     var confirmMsg = "Really send text(s) to " + potNums + " potential numbers?";
 
-    if (!confirm(confirmMsg)) return;
+    if (!confirm(confirmMsg)) return false;
 
-    successCallback();
+    return true;
   }
 
   $("#send_button").on("click", function(e) {
     e.preventDefault();
 
-    validateMassTexting(function() {
-      $.post("/", $("#masstext").serialize());
-    }, alert);
+    if (validateForm()) {
+      var postData = $("#masstext").serialize();
+
+      $.post("/", postData, function() {
+        appendLog("Sent text request\n");
+      }).fail(function() {
+        appendLog("Text request failed\n");
+      });
+    }
   });
 
   function numMessageParts() {
