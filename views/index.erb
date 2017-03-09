@@ -2,60 +2,21 @@
 <html>
 <head>
   <title>Mass texting tool</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="lyco.css" rel="stylesheet">
-
   <script src="jquery-3.1.1.min.js"></script>
-		
-  <script>
-    var wsProtocol = window.location.protocol == "https:" ? "wss:" : "ws:";
-    var ws           = new WebSocket(wsProtocol + "//" + window.location.host + "/ws");
-        ws.onopen    = function()  { console.log('websocket opened'); };
-        ws.onclose   = function()  { console.log('websocket closed'); }
-        ws.onmessage = function(m) {
-          var l = $("#logs");
-
-          l.append(m.data);
-          l.scrollTop(l.prop("scrollHeight"));
-        };
-
-    $(function() {
-      $("#send_button").on("click", function(e) {
-        e.preventDefault();
-
-/*
-        var potNums = $("#numbers").html();
-        var numPotNums = (potNums.match(/^.*?\S/gm) || []).length;
-
-        if (numPotNums == 0) {
-          alert("No numbers to send to!");
-          return;
-        }
-*/
-//        if ($("#message0").html().match(/\s*/)) {
-/*          alert("No message!");
-          return;
-        }
-
-        var confirmMsg = "Really send text(s) to " + numPotNums + " potential numbers?";
-
-        if (!confirm(confirmMsg)) return;
- */
-        $.post("/", $("#masstext").serialize());
-      });
-    
-    });
-
-  </script>
+  <script src="lyco.js"></script>
 </head>
 
 <body>
   <header>
     <h1>Mass texting tool</h1>
     <p>
-      Contact Jack Willis to check account balance.
-      Please use as needed for SA-related mass texting.
+      Contact Jack to check account balance.
+      Please use for SA-related mass texting.
     </p>
+  </header>
 
   <p>Using outgoing number: <%= @number %></p>
 
@@ -69,6 +30,13 @@
           Duplicates and invalid numbers will be ignored.
         </p>
       </figure>
+
+      <p>
+        Sending <tt id="potnums">0</tt> potential contacts:
+        <tt id="numparts">0</tt> message parts each.
+        <br>
+        Estimated maximum cost: <tt id="cost">$0.00</tt>.
+      </p>
     </fieldset>
 
     <fieldset>
@@ -94,10 +62,6 @@
 
     <p class="consider">
       Consider sending a test message to yourself before sending to the entire list.
-    </p>
-
-    <p>
-      Estimated cost: $<span id="cost">0.00</span>
     </p>
 
     <input id="send_button" type="submit" value="Send texts!">
