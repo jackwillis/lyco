@@ -41,10 +41,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bcrypt
-  rack-canonical-host
+  bcrypt (~> 3.1.11)
+  rack-canonical-host (~> 0.2.2)
   sinatra (~> 1.4.8)
-  sinatra-websocket
+  sinatra-websocket (~> 0.3.1)
   twilio-ruby (~> 4.13.0)
 
 RUBY VERSION

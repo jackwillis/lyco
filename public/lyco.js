@@ -31,6 +31,7 @@ $(function() {
   }
 
   setWs();
+  setInterval(setWs, 5000);
 
   function getPotentialNumbers() {
     var potNums = $("#numbers")[0].value;
