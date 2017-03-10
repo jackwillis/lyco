@@ -11,6 +11,7 @@ figure { padding: 0; display: flex; flex-wrap: wrap; }
 figure p { width: 15em; }
 
 .required, .consider { font-weight: bold; }
+.required span { font-weight: normal; }
 .consider { text-align: center; }
 
 input[type=submit] {

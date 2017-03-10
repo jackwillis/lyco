@@ -22,7 +22,7 @@
 
   <form name="masstext" id="masstext" action="#">
     <fieldset>
-      <label for="numbers" class="required">Numbers to text (required)</label>
+      <label for="numbers" class="required">Numbers to text*</label>
       <figure>
         <textarea id="numbers" name="numbers"></textarea>
         <p>
@@ -40,7 +40,10 @@
     </fieldset>
 
     <fieldset>
-      <label for="message0" class="required">Message part 1 (required)</label>
+      <label for="message0" class="required">
+        Message part 1*
+        <tt id="message0_length"></tt>
+      </label>
       <figure>
         <textarea id="message0" name="message[]"></textarea>
         <p>
@@ -49,12 +52,18 @@
         </p>
       </figure>
 
-      <label for="message1">Message part 2 (optional)</label>
+      <label for="message1">
+        Message part 2
+        <tt id="message1_length"></tt>
+      </label>
       <figure>
         <textarea id="message1" name="message[]"></textarea>
       </figure>
 
-      <label for="message2">Message part 3 (optional)</label>
+      <label for="message2">
+        Message part 3
+        <tt id="message2_length"></tt>
+      </label>
       <figure>
         <textarea id="message2" name="message[]"></textarea>
       </figure>

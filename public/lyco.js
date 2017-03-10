@@ -1,5 +1,6 @@
 $(function() {
   var COST_PER_TEXT = 0.0075;
+  var MAX_SMS_LENGTH = 160;
 
   function appendLog(logChunk) {
     var l = $("#logs");
@@ -25,7 +26,7 @@ $(function() {
     };
   }
 
-  function checkWs(){
+  function checkWs() {
     if (!window.ws || window.ws.readyState == 3) setWs();
   }
 
@@ -41,6 +42,10 @@ $(function() {
     return $(querySelector)[0].value.trim().length === 0;
   }
 
+  function textareaIsTooLong(querySelector) {
+    return $(querySelector)[0].value.length > MAX_SMS_LENGTH;
+  }
+
   function validateForm() {
     var potNums = getPotentialNumbers();
 
@@ -54,7 +59,14 @@ $(function() {
       return false;
     }
 
-    var confirmMsg = "Really send text(s) to " + potNums + " potential numbers?";
+    for (var i = 0; i < 2; i++) {
+      if (textareaIsTooLong("#message" + i)) {
+        alert("Message part " + (i+1) + " is too long!");
+        return false;
+      }
+    }
+
+    var confirmMsg = "Really send texts to " + potNums + " potential numbers?";
 
     if (!confirm(confirmMsg)) return false;
 
@@ -68,9 +80,9 @@ $(function() {
       var postData = $("#masstext").serialize();
 
       $.post("/", postData, function() {
-        appendLog("Sent text request\n");
+        appendLog("Sent request to server\n");
       }).fail(function() {
-        appendLog("Text request failed\n");
+        appendLog("Request failed to send\n");
       });
     }
   });
@@ -78,9 +90,9 @@ $(function() {
   function numMessageParts() {
     var num = 0;
 
-    if (!textareaIsEmpty("#message0")) num++;
-    if (!textareaIsEmpty("#message1")) num++;
-    if (!textareaIsEmpty("#message2")) num++;
+    for (var i = 0; i < 2; i++) {
+      if (!textareaIsEmpty("#message" + i)) num++;
+    }
 
     return num;
   }
@@ -107,11 +119,32 @@ $(function() {
     costHtml += centsPart;
 
     $("#cost").html(costHtml);
-  };
+  }
+
+  function updateTextAreaLengthCounter() {
+    var lengthCounterSpan = $("#" + this.id + "_length");
+
+    var charsRemaining = MAX_SMS_LENGTH - this.value.length;
+
+    var html;
+
+    if (charsRemaining  < 0) {
+      html = "<strong>(" + charsRemaining + ")</strong>";
+    }
+    else {
+      html = "(" + charsRemaining + ")";
+    }
+
+    lengthCounterSpan.html(html);
+  }
 
   updateNumCounters();
+
   $("#numbers").bind("input propertychange", updateNumCounters);
-  $("#message0").bind("input propertychange", updateNumCounters);
-  $("#message1").bind("input propertychange", updateNumCounters);
-  $("#message2").bind("input propertychange", updateNumCounters);
+
+  for (var i = 0; i < 2; i++) {
+    var messageTextArea = $("#message" + i);
+    messageTextArea.bind("input propertychange", updateNumCounters);
+    messageTextArea.bind("input propertychange", updateTextAreaLengthCounter);
+  }
 });
