@@ -1,12 +1,14 @@
 body {
   font: 12pt/16pt "Open Sans", "Droid Sans", "Segoe UI", "Helvetica Neue", sans-serif;
   max-width: 60em;
+  min-width: 20em;
+  padding: 1em;
   margin: auto;
 }
 
 label { display: block; margin-top: 1em; }
 fieldset { margin: 1em 0; }
-textarea { width: 40em; height: 10em; margin-right: 1em; }
+textarea { width: 65%; min-width: 20em; height: 10em; margin-right: 1em; }
 figure { padding: 0; display: flex; flex-wrap: wrap; }
 figure p { width: 15em; }
 
