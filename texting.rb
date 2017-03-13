@@ -9,7 +9,7 @@ AUTH_TOKEN = ENV["TWILIO_AUTH_TOKEN"]
 fail "no TWILIO_AUTH_TOKEN in env" unless AUTH_TOKEN
 
 SENDER = ENV["TWILIO_SENDER"]
-fail "no TWILIO_SENDER in env" unless SENDER
+fail "no TWILIO_SENDER in env" unless AUTH_TOKEN
 
 ################
 

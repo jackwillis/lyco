@@ -15,19 +15,32 @@ $(function() {
     var wsProtocol = window.location.protocol == "https:" ? "wss:" : "ws:";
 
     window.ws = new WebSocket(wsProtocol + "//" + window.location.host + "/ws");
+
+    window.ws.onopen = function() {
+      console.log("websocket opened");
+    };
     
-    window.ws.onopen = function() { console.log("websocket opened"); };
     window.ws.onclose = function() {
       console.log("websocket closed!");
       checkWs();
     };
+    
     window.ws.onmessage = function(msg) {
-      if (msg.data !== "") appendLog(msg.data);
+      if (msg.data === "__ping__") {
+        window.ws.send("__pong__");
+      }
+      else {
+        appendLog(msg.data);
+      }
     };
+
+    checkWs();
   }
 
   function checkWs() {
-    if (!window.ws || window.ws.readyState == 3) setWs();
+    if (!window.ws || window.ws.readyState == 3) {
+      setTimeout(setWs, 2000);
+    }
   }
 
   setWs();

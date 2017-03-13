@@ -54,9 +54,8 @@ get "/ws" do
 end
 
 # heartbeat
-Thread.new do
-  loop do
-    sleep 1
-    send_ws ""
+EM.run do
+  EM.add_periodic_timer(2) do
+    send_ws "__ping__"
   end
 end
