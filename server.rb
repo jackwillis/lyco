@@ -54,6 +54,8 @@ get "/ws" do
 end
 
 # heartbeat
-EM.add_periodic_timer(2) do
-  send_ws "__ping__"
+EM.next_tick do
+  EM.add_periodic_timer(2) do
+    send_ws "__ping__"
+  end
 end
