@@ -1,6 +1,5 @@
 require "twilio-ruby"
-
-$log = Logger.new(STDOUT)
+require "logger"
 
 ################
 
@@ -26,13 +25,15 @@ def parse_contacts(numbers_string)
 end
 
 def process_texts(params)
+  log = Logger.new(STDOUT)
+
   contacts = parse_contacts(params[:numbers])
   message_parts = params[:message].map(&:strip).reject(&:empty?)
 
   begin_msg = "Sending a #{message_parts.length}-part " +
     "message to #{contacts.length} contacts"
 
-  $log.info(begin_msg)
+  log.info(begin_msg)
   yield begin_msg + "\n"
 
   num_contacted = 0
