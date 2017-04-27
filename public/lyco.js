@@ -90,7 +90,7 @@ $(function() {
       var postData = $("#masstext").serialize();
 
       $.post("/", postData, function() {
-        appendLog("Sent request to server\n");
+        console.log("Sent request to server\n");
       }).fail(function() {
         appendLog("Request failed to send\n");
       });
