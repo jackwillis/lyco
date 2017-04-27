@@ -11,7 +11,8 @@ require_relative "websockets"
 require_relative "settings"
 require_relative "auth"
 
-set :static, true # serve assets from public/
+set :public_folder, File.join(File.dirname(__FILE__), "..", "public")
+set :views, File.join(File.dirname(__FILE__), "..", "views")
 
 get "/" do
   erb :index
