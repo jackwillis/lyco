@@ -12,6 +12,6 @@ if ENV["CANONICAL_HOST"]
   use Rack::CanonicalHost, ENV["CANONICAL_HOST"]
 end
 
-require_relative "server"
+require_relative "app/server"
 
 run Sinatra::Application
