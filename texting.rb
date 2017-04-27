@@ -1,6 +1,18 @@
 require "twilio-ruby"
 require "logger"
 
+post "/" do
+  safe_params = params.require([:numbers, :message])
+
+  Thread.new do
+    process_texts(safe_params) do |chunk|
+      send_ws(chunk)
+    end
+  end
+
+  204
+end
+
 def send_sms!(to:, body:)
   @_client ||= Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
   @_client.account.messages.create(from: SENDER, to: to, body: body)
