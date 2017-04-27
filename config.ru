@@ -17,7 +17,20 @@ require "bcrypt"
 
 set :app_pass, BCrypt::Password.new(ENV["LYCO_SECRET"])
 
-use Rack::Auth::Basic do |username, password|
+class LycoAuth < Rack::Auth::Basic
+  def call(env)
+    request = Rack::Request.new(env)
+
+    case request.path
+    when "/echo"
+      @app.call(env) # skip http authentication on webhooks
+    else
+      super
+    end
+  end
+end
+
+use LycoAuth do |username, password|
   settings.app_pass == (username + ":" + password)
 end
 
