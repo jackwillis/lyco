@@ -8,7 +8,7 @@ get "/echo" do
 
   log.info("#{from} replied: #{body}")
 
-  replies_forwardee = File.read(settings.replies_forwardee_filename).strip
+  replies_forwardee = Settings.replies_forwardee
 
   send_sms!(to: replies_forwardee, body: "#{from}'s reply: #{body}")
 
