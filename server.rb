@@ -9,6 +9,7 @@ end
 require_relative "texting"
 require_relative "websockets"
 require_relative "settings"
+require_relative "auth"
 
 set :static, true # serve assets from public/
 
