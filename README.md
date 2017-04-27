@@ -1,6 +1,6 @@
 # lyco
 
-Ruby/Sinatra web app for sending SMS messages to multiple recipients (mass texting)
+Ruby/Sinatra web app for sending SMS messages to multiple recipients (mass texting) using Twilio.
 
 ## Install
 
@@ -14,6 +14,8 @@ Create a username/password combination (secret)
 
     $ ruby -r bcrypt -e 'puts BCrypt::Password.create("myusername:mypassword")'
     $2a$10$dClmhaZSc8vCMtc0V.MCV.6mTUy/v2kHrcazcW4LO90EzosJU.JKC
+
+To make use of the auto-reply/forwarding feature, set your Twilio "Inbound Request Config" setting to `https://<your application url>/echo`.
 
 ## Usage
 

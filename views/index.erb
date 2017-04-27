@@ -6,19 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="lyco.css" rel="stylesheet">
   <script src="jquery-3.1.1.min.js"></script>
+  <script src="utils.js"></script>
   <script src="lyco.js"></script>
 </head>
 
 <body>
   <header>
     <h1>Mass texting tool</h1>
+    <h2>Index (<a href="/settings">settings</a>)</h2>
     <p>
       Contact Jack to check account balance.
       Please use for SA-related mass texting.
     </p>
   </header>
 
-  <p>Using outgoing number: <%= SENDER %></p>
+  <p>Using outgoing number: <%= SENDER %>.</p>
 
   <form name="masstext" id="masstext" action="#">
     <fieldset>

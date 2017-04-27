@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mass texting tool | Settings</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="lyco.css" rel="stylesheet">
+  <script src="jquery-3.1.1.min.js"></script>
+  <script src="utils.js"></script>
+  <script src="settings.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Mass texting tool</h1>
+    <h2>Settings (<a href="/">index</a>)</h2>
+  </header>
+
+  <form name="settings" id="settings" action="/settings" method="POST">
+    <fieldset>
+      <label for="automated_reply">
+        Automated reply message
+        <tt id="automated_reply_length"></tt>
+      </label>
+      <figure>
+        <textarea id="automated_reply" name="automated_reply"><%= @automated_reply %></textarea>
+        <p>
+          People who respond to mass texts will recieve this automated response.
+        </p>
+      </figure>
+    </fieldset>
+
+    <fieldset>
+      <label for="replies_forwardee">
+        Replies forwardee
+      </label>
+      <figure>
+        <input id="replies_forwardee" name="replies_forwardee" type="text" value="<%= CGI.escapeHTML(@replies_forwardee) %>">
+        <p>
+          Unless this field is left blank, the application will forward all replies to mass texts to the number specified here.
+        </p>
+      </figure>
+    </fieldset>
+
+
+    <input type="submit" value="Update settings">
+  </form>
+
+</html>

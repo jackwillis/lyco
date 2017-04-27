@@ -1,7 +1,4 @@
 $(function() {
-  var COST_PER_TEXT = 0.0075;
-  var MAX_SMS_LENGTH = 160;
-
   function appendLog(logChunk) {
     var l = $("#logs");
 
@@ -132,23 +129,6 @@ $(function() {
     costHtml += centsPart;
 
     $("#cost").html(costHtml);
-  }
-
-  function updateTextAreaLengthCounter() {
-    var lengthCounterSpan = $("#" + this.id + "_length");
-
-    var charsRemaining = MAX_SMS_LENGTH - this.value.length;
-
-    var html;
-
-    if (charsRemaining  < 0) {
-      html = "<strong>(" + charsRemaining + ")</strong>";
-    }
-    else {
-      html = "(" + charsRemaining + ")";
-    }
-
-    lengthCounterSpan.html(html);
   }
 
   updateNumCounters();

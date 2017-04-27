@@ -12,6 +12,8 @@ textarea { width: 65%; min-width: 20em; height: 10em; margin-right: 1em; }
 figure { padding: 0; display: flex; flex-wrap: wrap; }
 figure p { width: 15em; }
 
+input[type=text] { height: 2em; padding: 1em; margin-right: 2em; }
+
 .required, .consider { font-weight: bold; }
 .required span { font-weight: normal; }
 .consider { text-align: center; }
