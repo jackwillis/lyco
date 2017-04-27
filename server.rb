@@ -1,7 +1,7 @@
 require "sinatra"
-require "sinatra-websocket"
 
 require_relative "texting"
+require_relative "websockets"
 
 class Hash
   def require(keys)
@@ -12,15 +12,6 @@ end
 set :static, true # serve assets from public/
 set :automated_reply_filename, File.join(".", "data", "reply.txt")
 set :replies_forwardee_filename, File.join(".", "data", "forwardee.txt")
-set :sockets, []
-
-def send_ws(msg)
-  EM.next_tick do
-    settings.sockets.each do |s|
-      s.send(msg)
-    end
-  end
-end
 
 get "/" do
   erb :index
@@ -79,25 +70,4 @@ post "/settings" do
   File.write(settings.replies_forwardee_filename, params[:replies_forwardee].strip)
 
   redirect "/settings"
-end
-
-get "/ws" do
-  request.websocket do |ws|
-    ws.onopen do
-      ws.send("Connected\n")
-      settings.sockets << ws
-    end
-
-    ws.onclose do
-      warn("websocket closed")
-      settings.sockets.delete(ws)
-    end
-  end
-end
-
-# heartbeat
-EM.next_tick do
-  EM.add_periodic_timer(2) do
-    send_ws "__ping__"
-  end
 end
