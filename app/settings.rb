@@ -38,9 +38,6 @@ post "/settings" do
 end
 
 module Settings
-  AUTOMATED_REPLY_FILENAME = File.join(".", "data", "reply.txt")
-  REPLIES_FORWARDEE_FILENAME = File.join(".", "data", "forwardee.txt")
-
   DEFAULT_AUTOMATED_REPLY = <<~EOF
     Hello! You have received an automated text message.
 
@@ -50,27 +47,19 @@ module Settings
   DEFAULT_REPLIES_FORWARDEE = "15005550006"
 
   def self.automated_reply
-    if File.size?(AUTOMATED_REPLY_FILENAME)
-      File.read(AUTOMATED_REPLY_FILENAME).strip
-    else
-      DEFAULT_AUTOMATED_REPLY
-    end
+    $redis.get(:lyco_automatic_reply) || DEFAULT_AUTOMATED_REPLY
   end
 
   def self.automated_reply=(reply)
-    File.write(AUTOMATED_REPLY_FILENAME, reply.strip)
+    $redis.set(:lyco_automatic_reply, reply)
   end
 
   def self.replies_forwardee
-    if File.size?(REPLIES_FORWARDEE_FILENAME)
-      File.read(REPLIES_FORWARDEE_FILENAME).strip
-    else
-      DEFAULT_REPLIES_FORWARDEE
-    end
+    $redis.get(:lyco_replies_forwardee) || DEFAULT_REPLIES_FORWARDEE
   end
 
   def self.replies_forwardee=(forwardee)
-    File.write(REPLIES_FORWARDEE_FILENAME, forwardee.strip)
+    $redis.set(:lyco_replies_forwardee, forwardee)
   end
 
 end
