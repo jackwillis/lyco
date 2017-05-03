@@ -7,11 +7,17 @@ fail "no TWILIO_AUTH_TOKEN environment variable" unless AUTH_TOKEN
 SENDER = ENV["TWILIO_SENDER"]
 fail "no TWILIO_SENDER environment variable" unless AUTH_TOKEN
 
-if ENV["REDIS_URL"]
-  require "redis"
-  $redis = Redis.new(url: ENV["REDIS_URL"])
-else
-  fail "no REDIS_URL environment variable"
+REDIS_URL = ENV["REDIS_URL"]
+fail "no REDIS_URL environment variable" unless REDIS_URL
+
+require "redis"
+$redis = Redis.new(url: REDIS_URL)
+
+# ensure Redis is running
+begin
+  $redis.info
+rescue Redis::CannotConnectError => e
+  fail "Cannot connect to redis at #{REDIS_URL}"
 end
 
 if ENV["CANONICAL_HOST"]
