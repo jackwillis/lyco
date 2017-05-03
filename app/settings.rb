@@ -1,26 +1,14 @@
 # Twilio makes a request to this URL when
 # someone sends a text to our number
 get "/echo" do
-  from = params[:From]
-  body = params[:Body]
+  from = params[:From].to_s.strip
+  body = params[:Body].to_s.strip
 
-  log = Logger.new(STDOUT)
+  return 401 if from.empty? or body.empty?
 
-  log.info("#{from} replied: #{body}")
+  forward_incoming_message!(from: from, body: body)
 
-  replies_forwardee = Settings.replies_forwardee
-
-  send_sms!(to: replies_forwardee, body: "#{from}'s reply: #{body}")
-
-  log.info("#{from}'s message was forwarded to #{replies_forwardee}")
-
-  content_type :xml
-
-  response = Twilio::TwiML::Response.new do |r|
-    r.Sms Settings.automated_reply
-  end
-
-  response.text
+  automated_reply
 end
 
 get "/settings" do
@@ -35,6 +23,28 @@ post "/settings" do
   Settings.replies_forwardee = params[:replies_forwardee]
 
   redirect "/settings"
+end
+
+def forward_incoming_message!(from:, body:)
+  log = Logger.new(STDOUT)
+
+  log.info("#{from} replied: #{body}")
+
+  replies_forwardee = Settings.replies_forwardee
+
+  send_sms!(to: replies_forwardee, body: "#{from}'s reply: #{body}")
+
+  log.info("#{from}'s message was forwarded to #{replies_forwardee}")
+end
+
+def automated_reply
+  content_type :xml
+
+  response = Twilio::TwiML::Response.new do |r|
+    r.Sms Settings.automated_reply
+  end
+
+  response.text
 end
 
 module Settings
