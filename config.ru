@@ -15,7 +15,7 @@ $redis = Redis.new(url: REDIS_URL)
 
 # ensure Redis is running
 begin
-  $redis.info
+  $redis.ping
 rescue Redis::CannotConnectError => e
   fail "Cannot connect to redis at #{REDIS_URL}"
 end
