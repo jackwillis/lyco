@@ -20,7 +20,7 @@ end
 
 post "/settings" do
   Settings.automated_reply = params[:automated_reply]
-  Settings.replies_forwardee = params[:replies_forwardee]
+  Settings.replies_forwardee = params[:replies_forwardee].normalize_newlines
 
   redirect "/settings"
 end

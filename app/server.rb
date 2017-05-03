@@ -1,8 +1,8 @@
 require "sinatra"
 
-class Hash
-  def require(keys)
-    Hash[keys.uniq.map { |k| [k, self[k] ] }]
+class String
+  def normalize_newlines
+    encode(encoding, universal_newline: true)
   end
 end
 

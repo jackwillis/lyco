@@ -2,10 +2,11 @@ require "twilio-ruby"
 require "logger"
 
 post "/" do
-  safe_params = params.require([:numbers, :message])
+  numbers = params[:numbers].to_s
+  message = params[:message].to_s.normalize_newlines
 
   Thread.new do
-    process_texts(safe_params) do |chunk|
+    process_texts(numbers: numbers, message: message) do |chunk|
       send_ws(chunk)
     end
   end
