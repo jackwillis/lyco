@@ -20,9 +20,9 @@ rescue Redis::CannotConnectError => e
   fail "Cannot connect to redis at #{REDIS_URL}"
 end
 
+require_relative "server"
+
 if ENV["CANONICAL_HOST"]
   require "rack-canonical-host"
   use Rack::CanonicalHost, ENV["CANONICAL_HOST"]
 end
-
-require_relative "server"
