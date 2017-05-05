@@ -1,26 +1,24 @@
 require "sinatra"
 
+def require_env(name)
+  ENV[name] or fail "no #{name} environment variable"
+end
+
 ########
 
 require "twilio-ruby"
 
-account_sid = ENV["TWILIO_ACCOUNT_SID"]
-fail "no TWILIO_ACCOUNT_SID environment variable" unless account_sid
+account_sid = require_env("TWILIO_ACCOUNT_SID")
+auth_token = require_env("TWILIO_AUTH_TOKEN")
 
-auth_token = ENV["TWILIO_AUTH_TOKEN"]
-fail "no TWILIO_AUTH_TOKEN environment variable" unless auth_token
-
-set :sender, ENV["TWILIO_SENDER"]
-fail "no TWILIO_SENDER environment variable" unless settings.sender
-
+set :sender, require_env("TWILIO_SENDER")
 set :sms_client, Twilio::REST::Client.new(account_sid, auth_token)
 
 ########
 
 require "redis"
 
-redis_url = ENV["REDIS_URL"]
-fail "no REDIS_URL environment variable" unless redis_url
+redis_url = require_env("REDIS_URL")
 
 set :redis, Redis.new(url: redis_url)
 
@@ -35,8 +33,7 @@ end
 
 require "bcrypt"
 
-lyco_secret = ENV["LYCO_SECRET"]
-fail "no LYCO_SECRET environment variable" unless lyco_secret
+lyco_secret = require_env("LYCO_SECRET")
 
 set :app_pass, BCrypt::Password.new(lyco_secret)
 
