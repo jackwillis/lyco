@@ -50,11 +50,11 @@ require "logger"
 
 set :log, Logger.new(STDOUT)
 
-require_relative "utils"
+require_relative "helpers"
 require_relative "database"
-require_relative "texting"
-require_relative "websockets"
-require_relative "settings"
+require_relative "controllers/texting"
+require_relative "controllers/websockets"
+require_relative "controllers/settings"
 
 if ENV["CANONICAL_HOST"]
   require "rack-canonical-host"
