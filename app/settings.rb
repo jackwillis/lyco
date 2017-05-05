@@ -12,64 +12,35 @@ get "/echo" do
 end
 
 get "/settings" do
-  @automated_reply = Settings.automated_reply
-  @replies_forwardee = Settings.replies_forwardee 
+  @automated_reply = settings.db.automated_reply
+  @replies_forwardee = settings.db.replies_forwardee 
 
   erb :settings
 end
 
 post "/settings" do
-  Settings.automated_reply = params[:automated_reply]
-  Settings.replies_forwardee = params[:replies_forwardee].normalize_newlines
+  settings.db.automated_reply = params[:automated_reply]
+  settings.db.replies_forwardee = params[:replies_forwardee].normalize_newlines
 
   redirect "/settings"
 end
 
 def forward_incoming_message!(from:, body:)
-  log = Logger.new(STDOUT)
+  settings.log.info("#{from} replied: #{body}")
 
-  log.info("#{from} replied: #{body}")
-
-  replies_forwardee = Settings.replies_forwardee
+  replies_forwardee = settings.db.replies_forwardee
 
   send_sms!(to: replies_forwardee, body: "#{from}'s reply: #{body}")
 
-  log.info("#{from}'s message was forwarded to #{replies_forwardee}")
+  settings.log.info("#{from}'s message was forwarded to #{replies_forwardee}")
 end
 
 def automated_reply_xml
   content_type :xml
 
   response = Twilio::TwiML::Response.new do |r|
-    r.Sms Settings.automated_reply
+    r.Sms settings.db.automated_reply
   end
 
   response.text
-end
-
-module Settings
-  DEFAULT_AUTOMATED_REPLY = <<~EOF
-    Hello! You have received an automated text message.
-
-    To unsubscribe, please reply STOP.
-  EOF
-
-  DEFAULT_REPLIES_FORWARDEE = "15005550006"
-
-  def self.automated_reply
-    $redis.get(:lyco_automatic_reply) || DEFAULT_AUTOMATED_REPLY
-  end
-
-  def self.automated_reply=(reply)
-    $redis.set(:lyco_automatic_reply, reply)
-  end
-
-  def self.replies_forwardee
-    $redis.get(:lyco_replies_forwardee) || DEFAULT_REPLIES_FORWARDEE
-  end
-
-  def self.replies_forwardee=(forwardee)
-    $redis.set(:lyco_replies_forwardee, forwardee)
-  end
-
 end

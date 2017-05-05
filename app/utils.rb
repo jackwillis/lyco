@@ -5,8 +5,8 @@ class String
 end
 
 def send_sms!(to:, body:)
-  @_client ||= Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
-  @_client.account.messages.create(from: SENDER, to: to, body: body)
+  settings.sms_client.account.messages.create(
+    from: settings.sender, to: to, body: body)
 end  
 
 def normalize_number(number)

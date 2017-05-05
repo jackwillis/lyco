@@ -1,13 +1,10 @@
-require "twilio-ruby"
-require "logger"
-
 get "/" do
   erb :index
 end
 
 post "/" do
   numbers = params[:numbers].to_s
-  message = params[:message].to_s.normalize_newlines
+  message = [*params[:message]]
 
   Thread.new do
     process_texts(numbers: numbers, message: message) do |chunk|
@@ -18,16 +15,14 @@ post "/" do
   204
 end
 
-def process_texts(params)
-  log = Logger.new(STDOUT)
-
-  contacts = parse_contacts(params[:numbers])
-  message_parts = params[:message].map(&:strip).reject(&:empty?)
+def process_texts(numbers:, message:)
+  contacts = parse_contacts(numbers)
+  message_parts = message.map(&:strip).reject(&:empty?).map(&:normalize_newlines)
 
   begin_msg = "Sending a #{message_parts.length}-part " +
     "message to #{contacts.length} contacts"
 
-  log.info(begin_msg)
+  settings.log.info(begin_msg)
   yield begin_msg + "\n"
 
   num_contacted = 0
