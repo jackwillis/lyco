@@ -8,7 +8,7 @@ get "/echo" do
 
   forward_incoming_message!(from: from, body: body)
 
-  automated_reply
+  automated_reply_xml
 end
 
 get "/settings" do
@@ -37,7 +37,7 @@ def forward_incoming_message!(from:, body:)
   log.info("#{from}'s message was forwarded to #{replies_forwardee}")
 end
 
-def automated_reply
+def automated_reply_xml
   content_type :xml
 
   response = Twilio::TwiML::Response.new do |r|
