@@ -20,7 +20,16 @@ rescue Redis::CannotConnectError => e
   fail "Cannot connect to redis at #{REDIS_URL}"
 end
 
-require_relative "server"
+require "sinatra"
+
+require_relative "utils"
+require_relative "texting"
+require_relative "websockets"
+require_relative "settings"
+require_relative "auth"
+
+set :public_folder, File.join(File.dirname(__FILE__), "..", "public")
+set :views, File.join(File.dirname(__FILE__), "..", "views")
 
 if ENV["CANONICAL_HOST"]
   require "rack-canonical-host"
