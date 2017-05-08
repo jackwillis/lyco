@@ -43,4 +43,9 @@ describe 'settings controller' do
     end
   end
 
+  it 'forwards incoming messages to the replies forwardee', with_sms: true do
+    send_sms! to: '5551234567', body: 'yo'
+    expect(sms_client.delivered.count).to eq(1)
+    expect(sms_client.delivered).to eq([{ to: '5551234567', from: sender, body: 'yo' }])
+  end
 end

@@ -7,7 +7,7 @@ end
 def send_sms!(to:, body:)
   settings.sms_client.account.messages.create(
     from: settings.sender, to: to, body: body)
-end  
+end
 
 def normalize_number(number)
   number.gsub(/\D/, "")
