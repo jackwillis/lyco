@@ -4,7 +4,7 @@ get "/echo" do
   from = params[:From].to_s.strip
   body = params[:Body].to_s.strip
 
-  return 401 if from.empty? or body.empty?
+  return 400 if from.empty? or body.empty?
 
   forward_incoming_message!(from: from, body: body)
 

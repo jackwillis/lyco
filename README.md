@@ -28,3 +28,9 @@ Set up a redis instance.
       CANONICAL_HOST=<your domain name (optional)> \
       REDIS_URL=<your redis url> \
       rackup
+
+## Testing
+
+Testing is done with fakes, no environment variables needed.
+
+    $ rspec

@@ -1,16 +1,18 @@
-ENV["RACK_ENV"] = "test"
+ENV['RACK_ENV'] = 'test'
 
-require "bcrypt"
+require 'bundler'
+Bundler.require(:default, :test)
 
-ENV["LYCO_SECRET"] = BCrypt::Password.create("foo:bar")
+require_relative 'fakes'
 
-require "pry"
-require "rack/test"
-require "rspec"
-require "rspec-html-matchers"
-require_relative "twilio_helpers"
+# Fake environment variables
+set :sms_client, FakeSMSClient.new
+set :log, Logger.new(StringIO.new)
+set :redis, FakeRedisClient.new
+set :app_pass, BCrypt::Password.create('foo:bar')
+set :sender, '15005550006'
 
-require_relative "../app/application"
+require_relative '../app/application'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
@@ -24,12 +26,6 @@ RSpec.configure do |config|
     app.settings
   end
 
-  def db
-    settings.db
-  end
-
-  settings.set :sms_client, FakeSMSClient.new
-
   def sms_client
     settings.sms_client
   end
@@ -38,9 +34,13 @@ RSpec.configure do |config|
     settings.sender
   end
 
+  def db
+    settings.db
+  end
+
   config.before(:each) do |example|
     unless example.metadata[:no_auth]
-      basic_authorize "foo", "bar"
+      basic_authorize 'foo', 'bar'
     end
 
     if example.metadata[:with_db]

@@ -11,11 +11,7 @@ describe 'settings controller' do
   end
 
   it 'changes nothing when posting with no params', with_db: true do
-    before_state = db.state
-
-    post '/settings', {}
-
-    expect(db.state).to eq(before_state)
+    expect { post '/settings', {} }.to_not change { db.state }
   end
 
   it 'updates the database state', with_db: true do
@@ -44,8 +40,23 @@ describe 'settings controller' do
   end
 
   it 'forwards incoming messages to the replies forwardee', with_sms: true do
-    send_sms! to: '5551234567', body: 'yo'
-    expect(sms_client.delivered.count).to eq(1)
-    expect(sms_client.delivered).to eq([{ to: '5551234567', from: sender, body: 'yo' }])
+    get '/echo', { From: '15551234567', Body: 'thanks!' }
+
+    expect(sms_client.delivered).to eq([{
+      from: sender, to: db.replies_forwardee, body: '15551234567\'s reply: thanks!'
+    }])
+  end
+
+  it 'rejects invalid requests to the echo hook', with_sms: true do
+    params_examples = [
+        {},
+        { From: '15551234567' },
+        { Body: 'test' }
+    ]
+
+    params_examples.each do |params|
+      get '/echo', params
+      expect(last_response.status).to be(400)
+    end
   end
 end
