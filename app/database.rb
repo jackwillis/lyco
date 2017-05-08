@@ -2,10 +2,10 @@ class DatabaseService
   DEFAULT_AUTOMATED_REPLY = <<~EOF
     Hello! You have received an automated text message.
 
-    To unsubscribe, please reply STOP.
+    To unsubscribe, please reply STOP
   EOF
 
-  DEFAULT_REPLIES_FORWARDEE = "15005550006"
+  DEFAULT_REPLIES_FORWARDEE = '15005550006'
 
   def initialize(redis)
     @redis = redis
@@ -23,8 +23,17 @@ class DatabaseService
     @redis.get(:lyco_replies_forwardee) || DEFAULT_REPLIES_FORWARDEE
   end
 
-  def self.replies_forwardee=(forwardee)
+  def replies_forwardee=(forwardee)
     @redis.set(:lyco_replies_forwardee, forwardee)
+  end
+
+  def state
+    { automated_reply: automated_reply, replies_forwardee: replies_forwardee }
+  end
+
+  def reset!
+    self.automated_reply = DEFAULT_AUTOMATED_REPLY
+    self.replies_forwardee = DEFAULT_REPLIES_FORWARDEE
   end
 
 end
