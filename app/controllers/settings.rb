@@ -19,11 +19,8 @@ get "/settings" do
 end
 
 post "/settings" do
-  reply = params[:automated_reply]
-  forwardee = params[:replies_forwardee]
-
-  settings.db.automated_reply = reply.strip if reply
-  settings.db.replies_forwardee = forwardee.normalize_newlines.strip if forwardee
+  settings.db.automated_reply = params[:automated_reply]
+  settings.db.replies_forwardee = params[:replies_forwardee].normalize_newlines
 
   redirect "/settings"
 end
