@@ -8,3 +8,8 @@ gem "twilio-ruby", "~> 4.13.0"
 gem "bcrypt", "~> 3.1.11"
 gem "rack-canonical-host", "~> 0.2.2"
 gem "redis", "~> 3.3.3"
+
+group :test do
+  gem "rspec", "~> 3.3.0"
+  gem "rack-test", "~> 0.6.3"
+end
