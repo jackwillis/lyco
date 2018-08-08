@@ -42,7 +42,7 @@ def forward_incoming_message!(from:, body:)
 end
 
 def automated_reply_xml
-  return 204 unless db.autoreply_mode?
+  return 204 unless settings.db.autoreply_mode?
 
   content_type :xml
 
