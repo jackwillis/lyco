@@ -34,12 +34,4 @@ class FakeRedisClient
   def set(key, value)
     @data[key] = value
   end
-
-  def exists(key)
-    @data.has_key?(key)
-  end
-
-  def del(key)
-    @data.delete(key)
-  end  
 end

@@ -6,20 +6,31 @@ describe 'settings controller' do
     get '/settings'
 
     expect(last_response.body).to include('Automated reply message')
+    expect(last_response.body).to have_tag('input#autoreply_mode', with: { type: 'checkbox' })
     expect(last_response.body).to have_tag('textarea#automated_reply', text: db.automated_reply)
     expect(last_response.body).to have_tag('input#replies_forwardee', with: { value: db.replies_forwardee })
   end
 
-  it 'changes nothing when posting with no params', with_db: true do
-    expect { post '/settings', {} }.to_not change { db.state }
+  it 'does not change the String database values when given no params', with_db: true do
+    expect { post '/settings', {} }.to_not change {
+      [db.automated_reply, db.replies_forwardee]
+    }
   end
 
-  it 'updates the database state', with_db: true do
-    params = { automated_reply: 'foo', replies_forwardee: 'bar' }
+  it 'sets the Boolean database value to false when given no params', with_db: true do
+    db.autoreply_mode = true
+    expect { post '/settings', {} }.to change { db.autoreply_mode? }
+  end
 
-    post '/settings', params
+  it 'sets the Boolean database value to true when given value "on"', with_db: true do
+    db.autoreply_mode = false
+    expect { post '/settings', { autoreply_mode: "on" } }.to change { db.autoreply_mode? }
+  end
 
-    expect(db.state).to eq(params)
+  it 'sets String database values properly', with_db: true do
+    post '/settings', { automated_reply: 'foo', replies_forwardee: 'bar' }
+
+    expect([db.automated_reply, db.replies_forwardee]).to eq ['foo', 'bar']
   end
 
   it 'redirects to the settings page after posting', with_db: true do
@@ -47,7 +58,27 @@ describe 'settings controller' do
     }])
   end
 
-  it 'rejects invalid requests to the echo hook', with_sms: true do
+  it 'sends auto replies', with_db: true do
+    db.autoreply_mode = true
+
+    get '/echo', { From: '15551234567', Body: 'test' }
+
+    xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Sms>#{db.automated_reply}</Sms></Response>"
+
+    expect(last_response.body).to eq(xml)
+  end
+
+  it 'only sends autoreplies when autoreply mode is on', with_db: true do
+    db.autoreply_mode = false
+
+    get '/echo', { From: '15551234567', Body: 'test' }
+
+    expect(last_response.status).to be(204)
+  end
+
+  it 'rejects invalid requests to the echo hook', with_db: true do
+    db.autoreply_mode = true    
+
     params_examples = [
         {},
         { From: '15551234567' },
@@ -59,4 +90,5 @@ describe 'settings controller' do
       expect(last_response.status).to be(400)
     end
   end
+
 end

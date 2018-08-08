@@ -20,8 +20,6 @@ get "/settings" do
 end
 
 post "/settings" do
-  p params
-
   reply = params[:automated_reply]&.normalize_newlines&.strip
   settings.db.automated_reply = reply
 
@@ -39,16 +37,13 @@ def forward_incoming_message!(from:, body:)
 
   replies_forwardee = settings.db.replies_forwardee
 
-  if settings.db.autoreply_mode?
-    send_sms!(to: replies_forwardee, body: "#{from}'s reply: #{body}")
-
-    settings.log.info("#{from}'s message was forwarded to #{replies_forwardee}")
-  else
-    settings.log.info("...but it was ignored due to global settings")
-  end
+  send_sms!(to: replies_forwardee, body: "#{from}'s reply: #{body}")
+  settings.log.info("#{from}'s message was forwarded to #{replies_forwardee}")
 end
 
 def automated_reply_xml
+  return 204 unless db.autoreply_mode?
+
   content_type :xml
 
   response = Twilio::TwiML::Response.new do |r|
