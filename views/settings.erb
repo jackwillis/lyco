@@ -18,6 +18,17 @@
 
   <form name="settings" id="settings" action="/settings" method="POST">
     <fieldset>
+      <label for="autoreply_mode">
+        Autoreply mode
+      </label>
+
+      <figure>
+        <input id="autoreply_mode" name="autoreply_mode" type="checkbox" <% if @autoreply_mode %>checked="checked"<% end %>>
+        <p>Check this box to send automated replies.</p>
+      </figure>
+    </fieldset>
+
+    <fieldset>
       <label for="automated_reply">
         Automated reply message
         <tt id="automated_reply_length"></tt>

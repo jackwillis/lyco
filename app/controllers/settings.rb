@@ -14,16 +14,22 @@ end
 get "/settings" do
   @automated_reply = settings.db.automated_reply
   @replies_forwardee = settings.db.replies_forwardee 
+  @autoreply_mode = settings.db.autoreply_mode?
 
   erb :settings
 end
 
 post "/settings" do
-  reply = params[:automated_reply]
-  forwardee = params[:replies_forwardee]
+  p params
 
-  settings.db.automated_reply = reply.strip if reply
-  settings.db.replies_forwardee = forwardee.normalize_newlines.strip if forwardee
+  reply = params[:automated_reply]&.normalize_newlines&.strip
+  settings.db.automated_reply = reply
+
+  forwardee = params[:replies_forwardee]&.normalize_newlines&.strip
+  settings.db.replies_forwardee = forwardee
+
+  autoreply_mode = params[:autoreply_mode] == 'on'
+  settings.db.autoreply_mode = autoreply_mode
 
   redirect "/settings"
 end
@@ -33,9 +39,13 @@ def forward_incoming_message!(from:, body:)
 
   replies_forwardee = settings.db.replies_forwardee
 
-  send_sms!(to: replies_forwardee, body: "#{from}'s reply: #{body}")
+  if settings.db.autoreply_mode?
+    send_sms!(to: replies_forwardee, body: "#{from}'s reply: #{body}")
 
-  settings.log.info("#{from}'s message was forwarded to #{replies_forwardee}")
+    settings.log.info("#{from}'s message was forwarded to #{replies_forwardee}")
+  else
+    settings.log.info("...but it was ignored due to global settings")
+  end
 end
 
 def automated_reply_xml
