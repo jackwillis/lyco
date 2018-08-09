@@ -46,9 +46,7 @@ def automated_reply_xml
 
   content_type :xml
 
-  response = Twilio::TwiML::Response.new do |r|
-    r.Sms settings.db.automated_reply
-  end
-
-  response.text
+  response = Twilio::TwiML::MessagingResponse.new
+  response.message(body: settings.db.automated_reply)
+  response.to_s
 end

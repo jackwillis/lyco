@@ -63,7 +63,7 @@ describe 'settings controller' do
 
     get '/echo', { From: '15551234567', Body: 'test' }
 
-    xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Sms>#{db.automated_reply}</Sms></Response>"
+    xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response>\n<Message>#{db.automated_reply}</Message>\n</Response>\n"
 
     expect(last_response.body).to eq(xml)
   end
