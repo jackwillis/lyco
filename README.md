@@ -1,5 +1,7 @@
 # lyco
 
+![Build status](https://travis-ci.org/jackwillis/lyco.svg?branch=master)
+
 Ruby/Sinatra web app for sending SMS messages to multiple recipients (mass texting) using Twilio.
 
 ## Install
