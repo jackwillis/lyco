@@ -5,7 +5,7 @@ class String
 end
 
 def send_sms!(to:, body:)
-  settings.sms_client.account.messages.create(
+  settings.sms_client.messages.create(
     from: settings.sender, to: to, body: body)
 end
 
