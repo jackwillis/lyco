@@ -13,10 +13,17 @@
 <body>
   <header>
     <h1>Mass texting tool</h1>
-    <h2>Settings (<a href="/">index</a>)</h2>
+    <nav>[ <a href="/">Send texts</a> ] [ <strong>Settings</strong> ]</nav>
   </header>
 
   <form name="settings" id="settings" action="/settings" method="POST">
+    <fieldset>
+      <label for="phone_number">Phone number</label>
+
+      <figure>
+        <input id="phone_number" type="text" disabled value="<%= settings.sender %>">
+    </fieldset>
+
     <fieldset>
       <label for="autoreply_mode">
         Autoreply mode
@@ -36,7 +43,7 @@
       <figure>
         <textarea id="automated_reply" name="automated_reply"><%= @automated_reply %></textarea>
         <p>
-          People who respond to mass texts will recieve this automated response.
+          The tool&rsquo;s response to any incoming message.
         </p>
       </figure>
     </fieldset>
@@ -48,7 +55,7 @@
       <figure>
         <input id="replies_forwardee" name="replies_forwardee" type="text" value="<%= CGI.escapeHTML(@replies_forwardee) %>">
         <p>
-          Unless this field is left blank, the application will forward all replies to mass texts to the number specified here.
+          Incoming messages will be forwarded to this phone number. The field may be left blank.
         </p>
       </figure>
     </fieldset>
