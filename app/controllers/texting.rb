@@ -4,7 +4,7 @@ end
 
 post "/" do
   numbers = params[:numbers].to_s
-  message = [*params[:message]]
+  message = params[:message].to_s
 
   Thread.new do
     process_texts(numbers: numbers, message: message) do |chunk|
@@ -17,11 +17,9 @@ end
 
 def process_texts(numbers:, message:)
   contacts = parse_contacts(numbers)
-  message_parts = message.map(&:strip).reject(&:empty?).map(&:normalize_newlines)
+  message = message.strip.normalize_newlines
 
-  begin_msg = "Sending a #{message_parts.length}-part " +
-    "message to #{contacts.length} contacts"
-
+  begin_msg = "Sending a #{message.length}-character message to #{contacts.length} contacts"
   settings.log.info(begin_msg)
   yield begin_msg + "\n"
 
@@ -31,11 +29,8 @@ def process_texts(numbers:, message:)
   contacts.each do |contact|
     begin
       yield "Sending message to #{contact}"
-
-      message_parts.each_with_index do |part, i|
-        send_sms!(to: contact, body: part)
-        yield " (part #{i + 1})"
-      end
+      
+      send_sms!(to: contact, body: message)
 
       yield " [OK]\n"
 

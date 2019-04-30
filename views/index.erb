@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="lyco.css" rel="stylesheet">
   <script src="jquery-3.1.1.min.js"></script>
-  <script src="utils.js"></script>
-  <script src="lyco.js"></script>
+  <script src="index.js"></script>
 </head>
 
 <body>
@@ -18,7 +17,7 @@
 
   <form name="masstext" id="masstext" action="#">
     <fieldset>
-      <label for="numbers">Recipients*</label>
+      <label for="numbers">Recipients (<span id="potnums">0</span>)</label>
       <figure>
         <textarea id="numbers" name="numbers"></textarea>
         <p>
@@ -27,40 +26,23 @@
           and duplicate and invalid numbers are ignored.
         </p>
       </figure>
-
-      <p>
-        Sending <tt id="potnums">0</tt> potential contacts
-        <tt id="numparts">0</tt> message parts each.
-        <br>
-        Estimated maximum cost: <tt id="cost">$0.00</tt>.
-      </p>
     </fieldset>
 
     <fieldset>
-      <label for="message0">
-        Message (1/3)*
-        <tt id="message0_length"></tt>
+      <label for="message">
+        Message
+        (<span id="charcount"></span> chars;
+        <span id="encoding"></span>;
+        <span id="numparts"></span> segments)
       </label>
       <figure>
-        <textarea id="message0" name="message[]"></textarea>
-      </figure>
-
-      <label for="message1">
-        Message (2/3)
-        <tt id="message1_length"></tt>
-      </label>
-      <figure>
-        <textarea id="message1" name="message[]"></textarea>
-      </figure>
-
-      <label for="message2">
-        Message (3/3)
-        <tt id="message2_length"></tt>
-      </label>
-      <figure>
-        <textarea id="message2" name="message[]"></textarea>
+        <textarea id="message" name="message"></textarea>
       </figure>
     </fieldset>
+
+    <p>
+      Cost: <span id="cost"></span>.
+    </p>
 
     <p class="warning">
       Send a test to yourself before your entire list.
@@ -68,6 +50,7 @@
 
     <input id="send_button" type="submit" value="Send texts!">
   </form>
+
 
   <h2>Logs</h2>
   <pre id="logs"></pre>
