@@ -1,27 +1,49 @@
 body {
-  font: 12pt/16pt sans-serif;
-  max-width: 42em;
-  min-width: 20em;
-  padding: 1em;
-  margin: auto;
+  max-width: 48em;
+  margin: 1em auto;
+
+  font-size: 125%;
+  line-height: 1.5;
 }
 
-label { display: block; margin-top: 1em; }
-fieldset { margin: 1em 0; }
-textarea { width: 65%; min-width: 20em; height: 10em; margin-right: 1em; }
-figure p { color: #767676; }
+header nav ul {
+  padding: 0;
+}
 
-input[type=text] { height: 2em; padding: 1em; margin-right: 2em; }
+header nav ul li {
+  list-style: none;
+  display: inline;
+}
 
-.warning { font-weight: bold; font-size: 125%; }
+textarea {
+  width: 100%;
+  height: 12em;
+}
 
-input[type=submit] {
-  display: block;
-  margin: 2em 0;
-  padding: 1em;
+label {
+  font-weight: bold;
+}
+
+.dynamic {
+  font-weight: initial;
+  line-height: 0;
+}
+
+.dynamic, textarea {
+  font-family: monospace;
+  font-size: 125%;
+}
+
+.warning {
+  background: #fdb900;
+  padding: 0.25em;
 }
 
 #logs {
-  height: 20em;
+  height: 24em;
   overflow: scroll;
+  border-style: solid;
+  border-color: gray;
+  border-width: 0 2px;
+  padding: 0.25em;
 }

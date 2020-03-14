@@ -4,55 +4,67 @@
   <title>Mass texting tool</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="pure.min.css" rel="stylesheet">
   <link href="lyco.css" rel="stylesheet">
   <script src="jquery-3.4.1.min.js"></script>
   <script src="index.js"></script>
 </head>
 
 <body>
+
   <header>
     <h1>Mass texting tool</h1>
-    <nav>[ <strong>Send texts</strong> ] [ <a href="/settings">Settings</a> ]</nav>
+    <nav>
+      <ul>
+        <li class="pure-button" disabled>Compose</li>
+        <li><a class="pure-button" href="/settings">Settings</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <form name="masstext" id="masstext" action="#">
-    <fieldset>
-      <label for="numbers">Recipients (<span id="potnums">0</span>)</label>
-      <figure>
-        <textarea id="numbers" name="numbers"></textarea>
-        <p>
+  <main>
+    <p aria-hidden="true">
+      <b>Cost</b>:
+      $0.0075/SMS <span class="dynamic">(<span id="cost"></span>)</span>
+    </p>
+
+    <form class="pure-form pure-form-stacked" name="masstext" id="masstext" action="#">
+      <fieldset>
+        <label for="numbers">
+          Recipients
+          <span class="dynamic" aria-hidden="true">(<span id="potnums">0</span>)</span>
+        </label>
+
+        <p class="pure-form-message">
           A list of phone numbers, each on a new line.
-          Puncutation is stripped,
-          and duplicate and invalid numbers are ignored.
+          Puncutation, duplicate numbers, and invalid numbers will be ignored.
         </p>
-      </figure>
-    </fieldset>
 
-    <fieldset>
-      <label for="message">
-        Message
-        (<span id="charcount"></span> chars;
-        <span id="encoding"></span>;
-        <span id="numparts"></span> segments)
-      </label>
-      <figure>
+        <textarea id="numbers" name="numbers"></textarea>
+      </fieldset>
+
+      <fieldset>
+        <label for="message">
+          Message
+          <span class="dynamic" aria-hidden="true">
+            (<span id="charcount"></span> chars;
+            <span id="encoding"></span>;
+            <span id="numparts"></span> segments)
+          </span>
+        </label>
+
         <textarea id="message" name="message"></textarea>
-      </figure>
-    </fieldset>
+      </fieldset>
 
-    <p>
-      Cost: <span id="cost"></span>.
-    </p>
+      <p class="warning">
+        <strong>Before sending a mass text, send yourself a test</strong>
+      </p>
 
-    <p class="warning">
-      Send a test to yourself before your entire list.
-    </p>
+      <input class="pure-button pure-button-primary" id="send_button" type="submit" value="Send message(s)">
+    </form>
 
-    <input id="send_button" type="submit" value="Send texts!">
-  </form>
-
-
-  <h2>Logs</h2>
-  <pre id="logs"></pre>
+    <h2>Status</h2>
+    <pre id="logs"></pre>
+  </main>
 
 </html>

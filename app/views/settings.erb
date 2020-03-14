@@ -4,21 +4,26 @@
   <title>Mass texting tool | Settings</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="pure.min.css" rel="stylesheet">
   <link href="lyco.css" rel="stylesheet">
 </head>
 
 <body>
   <header>
     <h1>Mass texting tool</h1>
-    <nav>[ <a href="/">Send texts</a> ] [ <strong>Settings</strong> ]</nav>
+    <nav>
+      <ul>
+        <li><a class="pure-button" href="/">Compose</a></li>
+        <li class="pure-button" disabled>Settings</li>
+      </ul>
+    </nav>
   </header>
 
-  <form name="settings" id="settings" action="/settings" method="POST">
+  <form class="pure-form pure-form-stacked" name="settings" id="settings" action="/settings" method="POST">
     <fieldset>
       <label for="phone_number">Phone number</label>
 
-      <figure>
-        <input id="phone_number" type="text" disabled value="<%= settings.sender %>">
+      <input id="phone_number" type="text" disabled value="<%= settings.sender %>">
     </fieldset>
 
     <fieldset>
@@ -26,38 +31,29 @@
         Autoreply mode
       </label>
 
-      <figure>
-        <input id="autoreply_mode" name="autoreply_mode" type="checkbox" <% if @autoreply_mode %>checked="checked"<% end %>>
-        <p>Check this box to enable automated replies.</p>
-      </figure>
+      <p class="pure-form-message">Check this box to enable automated replies.</p>
+      <input id="autoreply_mode" name="autoreply_mode" type="checkbox" <% if @autoreply_mode %>checked="checked"<% end %>>
     </fieldset>
 
     <fieldset>
       <label for="automated_reply">
         Automated reply message
       </label>
-      <figure>
-        <textarea id="automated_reply" name="automated_reply"><%= @automated_reply %></textarea>
-        <p>
-          The tool&rsquo;s response to any incoming message.
-        </p>
-      </figure>
+
+      <p class="pure-form-message">The tool&rsquo;s response to any incoming message.</p>
+      <textarea id="automated_reply" name="automated_reply"><%= @automated_reply %></textarea>
     </fieldset>
 
     <fieldset>
       <label for="replies_forwardee">
         Replies forwardee
       </label>
-      <figure>
-        <input id="replies_forwardee" name="replies_forwardee" type="text" value="<%= CGI.escapeHTML(@replies_forwardee) %>">
-        <p>
-          Incoming messages will be forwarded to this phone number. The field may be left blank.
-        </p>
-      </figure>
+
+      <p class="pure-form-message">Incoming messages will be forwarded to this phone number. The field may be left blank.</p>
+      <input id="replies_forwardee" name="replies_forwardee" type="text" value="<%= CGI.escapeHTML(@replies_forwardee) %>">
     </fieldset>
 
-
-    <input type="submit" value="Update settings">
+    <input class="pure-button pure-button-primary" type="submit" value="Update settings">
   </form>
 
 </html>
