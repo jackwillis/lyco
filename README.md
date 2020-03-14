@@ -56,7 +56,7 @@ Name | via | License
 [Pure CSS](https://purecss.io/) | [app/assets/pure.min.css](app/assets/pure.min.css) | [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 [sinatra-websocket](https://github.com/gruis/sinatra-websocket) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT)
 
-This software is licensed under the terms of the GNU Affero General Public License, version 3 or later.
+This is free software licensed under the terms of the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0), version 3 or later.
 
 © Copyright Jack Willis 2017–2020
 
