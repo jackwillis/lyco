@@ -13,7 +13,7 @@ set :username, 'foo'
 set :password, 'bar'
 set :sender, '15005550006'
 
-require_relative '../app/application'
+require_relative '../config/application'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods

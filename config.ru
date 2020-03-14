@@ -1,3 +1,3 @@
-require_relative "app/application"
+require_relative "config/application"
 
 run Sinatra::Application
