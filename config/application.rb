@@ -11,8 +11,9 @@ end
 
 require_relative "environment" unless testing?
 
-require_relative "../app/database"
-set :db, DatabaseService.new(settings.redis)
+require_relative "model"
+require_relative "../app/model"
+set :db, SettingsDatabase.new(settings.redis)
 
 require_relative "../app/controllers/application"
 require_relative "../app/controllers/echo"
