@@ -1,6 +1,6 @@
 # Lyco
 
-Lyco is a web app for sending SMS messages to a large batch of recipients (mass texting).
+Lyco (new name pending) is a web app for sending SMS messages to a large batch of recipients (mass texting).
 It is specific to the SMS provider Twilio.
 It is built with the Ruby programming language and the Sinatra web framework.
 
@@ -33,10 +33,9 @@ bundle exec rackup
 ```
 
 2. To make use of the auto-reply/forwarding feature,
-make sure your web server is publicly accessible
-and that HTTP Basic Authentication is configured.
+make sure your web server is publicly accessible,
+using HTTPS, and that HTTP Basic Authentication is configured.  
 Set your Twilio "Inbound Request Config" setting to `https://` + `<username>` + `:` + `<password>` + `@` + `<host>` + `/echo`.
-
 
 ## Testing
 
@@ -66,3 +65,4 @@ This is free software licensed under the terms of the [GNU Affero General Public
 ## Goals
 
 * Get rid of dependency on `sinatra-websocket`
+* Full RSpec coverage and tests for JS
