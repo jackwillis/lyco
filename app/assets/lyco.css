@@ -6,6 +6,10 @@ body {
   line-height: 1.5;
 }
 
+header, main, footer {
+  margin: 1em 0;
+}
+
 header nav ul {
   padding: 0;
 }
