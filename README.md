@@ -40,7 +40,7 @@ Testing is done with fakes, no environment variables are needed here.
 
 Name | via | License
 --- | --- | ---
-[Ruby](https://www.ruby-lang.org/) | | [Ruby](https://www.ruby-lang.org/en/about/license.txt)
+[Ruby](https://www.ruby-lang.org/) | | [BSD-2-Clause](https://opensource.org/licenses/BSD-2-Clause)
 [Sinatra](http://sinatrarb.com/) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT)
 [Redis](https://redis.io/) | | [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 [redis-rb](https://github.com/redis/redis-rb) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT)
