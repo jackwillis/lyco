@@ -19,5 +19,7 @@ rescue Redis::CannotConnectError => e
   fail "Cannot connect to redis at #{redis_url}"
 end
 
-set :app_pass, BCrypt::Password.new(require_env("LYCO_SECRET"))
+set :username, require_env("HTTP_BASIC_USERNAME")
+set :password, require_env("HTTP_BASIC_PASSWORD")
+
 set :log, Logger.new(STDOUT)

@@ -9,7 +9,8 @@ require_relative 'fakes'
 set :sms_client, FakeSMSClient.new
 set :log, Logger.new(StringIO.new)
 set :redis, FakeRedisClient.new
-set :app_pass, BCrypt::Password.create('foo:bar')
+set :username, 'foo'
+set :password, 'bar'
 set :sender, '15005550006'
 
 require_relative '../app/application'

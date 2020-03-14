@@ -4,10 +4,10 @@ ruby "2.7.0"
 
 gem "sinatra", "~> 2.0.3"
 gem "sinatra-websocket", "~> 0.3.1"
-gem "bcrypt", "~> 3.1.12"
 gem "rack-canonical-host", "~> 0.2.3"
 
-group :mocked do
+# These gems are faked during testing (see spec/fakes.rb)
+group :faked do
   gem "redis", "~> 4.0.1"
   gem "twilio-ruby", "~> 5.12.0"
 end
