@@ -35,3 +35,14 @@ set your Twilio "Inbound Request Config" setting to `<your application url>` + `
 Testing is done with fakes, no environment variables are needed here.
 
         $ rspec
+
+## Dependencies
+
+| Name | via | License |
+|--|--|
+| [Ruby](https://www.ruby-lang.org/) | | [Ruby](https://www.ruby-lang.org/en/about/license.txt) |
+| [Sinatra](http://sinatrarb.com/) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT) |
+| [Redis](https://redis.io/) | | [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause) |
+| [redis-rb](https://github.com/redis/redis-rb) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT) |
+| [twilio-ruby](https://www.twilio.com/docs/libraries/ruby) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT) |
+| [jQuery](https://jquery.com/) | [public/jquery-3.4.1.min.js](public/jquery-3.4.1.min.js) | [MIT](https://opensource.org/licenses/MIT) |
