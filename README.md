@@ -6,17 +6,17 @@ It is built with the Ruby programming language and the Sinatra web framework.
 
 ![Build status](https://travis-ci.org/jackwillis/lyco.svg?branch=master)
 
-## Install
+## Installation
 
-1. Download the repository and install the RubyGem bundle.
+1. [Install Ruby](https://www.ruby-lang.org/en/downloads/) and [set up a Redis server](https://redis.io/topics/quickstart).
+
+2. Download the repository and install the RubyGem bundle.
 
 ```
 git clone git@github.com:jackwillis/lyco.git
 cd lyco
 bundle install
 ```
-
-2. [Set up a Redis server.](https://redis.io/topics/quickstart)
 
 ## Usage
 
