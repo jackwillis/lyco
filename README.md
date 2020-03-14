@@ -20,21 +20,21 @@ bundle install
 
 ## Usage
 
-1. Start the web server with proper environment variables:
+1. Set up the proper environment variables:
 
-```
-TWILIO_ACCOUNT_SID=<your twilio account sid> \
-TWILIO_AUTH_TOKEN=<your twilio account sid> \
-TWILIO_SENDER=<your outgoing sms number> \
-HTTP_BASIC_USERNAME=<the global username for your instance> \
-HTTP_BASIC_PASSWORD=<the global password for your instance> \
-REDIS_URL=<your redis url> \
-bundle exec rackup
-```
+Name | Description
+--- | ---
+`TWILIO_ACCOUNT_SID` | Twilio Account SID
+`TWILIO_AUTH_TOKEN` | [Twilio Auth Token](https://support.twilio.com/hc/en-us/articles/223136027-Auth-Tokens-and-How-to-Change-Them)
+`TWILIO_SENDER` | Twilio phone number
+`HTTP_BASIC_USERNAME` | [HTTP Basic Auth](https://demo.twilio.com/welcome/sms/) username for your lyco instance (this is a single-user app)
+`HTTP_BASIC_PASSWORD` | HTTP Basic Auth password
+`REDIS_URL` | URL of your Redis instance, e.g. `redis://127.0.0.1:6379`
 
-2. To make use of the auto-reply/forwarding feature,
-make sure your web server is publicly accessible,
-using HTTPS, and that HTTP Basic Authentication is configured.  
+2. Start the web server with `bundle exec rackup`.
+
+3. To make use of the auto-reply/forwarding feature,
+make sure your web server is publicly accessible and using HTTPS.  
 Set your Twilio "Inbound Request Config" setting to `https://` + `<username>` + `:` + `<password>` + `@` + `<host>` + `/echo`.
 
 ## Testing
@@ -66,3 +66,4 @@ This is free software licensed under the terms of the [GNU Affero General Public
 
 * Get rid of dependency on `sinatra-websocket`
 * Full RSpec coverage and tests for JS
+* Improve authentication
