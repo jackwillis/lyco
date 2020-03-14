@@ -33,7 +33,10 @@ bundle exec rackup
 ```
 
 2. To make use of the auto-reply/forwarding feature,
-set your Twilio "Inbound Request Config" setting to `<your application url>` + `/echo`.
+make sure your web server is publicly accessible
+and that HTTP Basic Authentication is configured.
+Set your Twilio "Inbound Request Config" setting to `https://` + `<username>` + `:` + `<password>` + `@` + `<host>` + `/echo`.
+
 
 ## Testing
 
