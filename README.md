@@ -2,21 +2,22 @@
 
 ![Build status](https://travis-ci.org/jackwillis/lyco.svg?branch=master)
 
-Ruby/Sinatra web app for sending SMS messages to multiple recipients (mass texting) using Twilio.
+Lyco is a Ruby/Sinatra web app for sending SMS messages to multiple recipients (mass texting).
+It is specific to the SMS provider Twilio.
 
 ## Install
 
-Download repository
+1. Download repository and install gem bundle
 
     $ git clone git@github.com:jackwillis/lyco.git
     $ cd lyco
     $ bundle install
 
-To make use of the auto-reply/forwarding feature, set your Twilio "Inbound Request Config" setting to `https://<your application url>/echo`.
-
-Set up a redis instance.
+2. Set up a Redis server.
 
 ## Usage
+
+1. Start the web server with proper environment variables
 
     $ TWILIO_ACCOUNT_SID=<your twilio account sid> \
       TWILIO_AUTH_TOKEN=<your twilio account sid> \
@@ -27,8 +28,10 @@ Set up a redis instance.
       REDIS_URL=<your redis url> \
       rackup
 
+2. To make use of the auto-reply/forwarding feature, set your Twilio "Inbound Request Config" setting to `https://<your application url>/echo`.
+
 ## Testing
 
-Testing is done with fakes, no environment variables needed.
+Testing is done with fakes, no environment variables are needed here.
 
     $ rspec
