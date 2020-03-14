@@ -42,7 +42,7 @@ Testing is done with fakes, no environment variables are needed here.
 bundle exec rspec
 ```
 
-## Dependencies
+## Dependencies and licenses
 
 Name | via | License
 --- | --- | ---
@@ -54,6 +54,10 @@ Name | via | License
 [jQuery](https://jquery.com/) | [app/assets/jquery-3.4.1.min.js](app/assets/jquery-3.4.1.min.js) | [MIT](https://opensource.org/licenses/MIT)
 [Pure CSS](https://purecss.io/) | [app/assets/pure.min.css](app/assets/pure.min.css) | [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 [sinatra-websocket](https://github.com/gruis/sinatra-websocket) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT)
+
+This software is licensed under the terms of the GNU Affero General Public License, version 3 or later.
+
+© Copyright Jack Willis 2017—2020
 
 ## Goals
 
