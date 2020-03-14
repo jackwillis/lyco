@@ -28,7 +28,7 @@ TWILIO_SENDER=<your outgoing sms number> \
 HTTP_BASIC_USERNAME=<the global username for your instance> \
 HTTP_BASIC_PASSWORD=<the global password for your instance> \
 REDIS_URL=<your redis url> \
-rackup
+bundle exec rackup
 ```
 
 2. To make use of the auto-reply/forwarding feature,
@@ -39,7 +39,7 @@ set your Twilio "Inbound Request Config" setting to `<your application url>` + `
 Testing is done with fakes, no environment variables are needed here.
 
 ```
-rspec
+bundle exec rspec
 ```
 
 ## Dependencies
