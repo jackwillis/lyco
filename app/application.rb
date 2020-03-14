@@ -25,10 +25,3 @@ set :views,         File.join(File.dirname(__FILE__), "..", "views")
 use Rack::Auth::Basic do |username, password|
   [settings.username, settings.password] == [username, password]
 end
-
-# Redirect to the canonical host if necessary
-
-if ENV["CANONICAL_HOST"]
-  require "rack-canonical-host"
-  use Rack::CanonicalHost, ENV["CANONICAL_HOST"]
-end

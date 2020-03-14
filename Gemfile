@@ -4,7 +4,6 @@ ruby "2.7.0"
 
 gem "sinatra", "~> 2.0.3"
 gem "sinatra-websocket", "~> 0.3.1"
-gem "rack-canonical-host", "~> 0.2.3"
 
 # These gems are faked during testing (see spec/fakes.rb)
 group :faked do

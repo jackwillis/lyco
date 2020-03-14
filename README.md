@@ -24,7 +24,6 @@ It is specific to the SMS provider Twilio.
       TWILIO_SENDER=<your outgoing sms number> \
       HTTP_BASIC_USERNAME=<the global username for your instance> \
       HTTP_BASIC_PSASWORD=<the global password for your instance> \
-      CANONICAL_HOST=<your domain name (optional)> \
       REDIS_URL=<your redis url> \
       rackup
 
