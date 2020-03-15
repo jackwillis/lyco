@@ -30,6 +30,7 @@ Name | Description
 `HTTP_BASIC_USERNAME` | [HTTP Basic Auth](https://demo.twilio.com/welcome/sms/) username for your lyco instance (this is a single-user app)
 `HTTP_BASIC_PASSWORD` | HTTP Basic Auth password
 `REDIS_URL` | URL of your Redis instance, e.g. `redis://127.0.0.1:6379`
+`INSTANCE_NAME` | The name of your instance, e.g. `My Great Organization` (optional)
 
 2. Start the web server with `bundle exec rackup`.
 

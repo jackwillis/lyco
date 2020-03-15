@@ -1,73 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Mass texting tool</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="pure.min.css" rel="stylesheet">
-  <link href="lyco.css" rel="stylesheet">
-  <script src="jquery-3.4.1.min.js"></script>
-  <script src="index.js"></script>
-</head>
+<nav>
+  <ul>
+    <li class="pure-button" disabled>Compose</li>
+    <li><a class="pure-button" href="/settings">Settings</a></li>
+  </ul>
+</nav>
 
-<body>
+<main>
+  <h2>Compose</h2>
 
-  <header>
-    <h1>Mass texting tool</h1>
-    <nav>
-      <ul>
-        <li class="pure-button" disabled>Compose</li>
-        <li><a class="pure-button" href="/settings">Settings</a></li>
-      </ul>
-    </nav>
-  </header>
+  <p aria-hidden="true">
+    <b>Cost</b>:
+    $0.0075/SMS
+    <output id="cost-output" for="masstext"></output>
+  </p>
 
-  <main>
-    <h2>Compose</h2>
+  <form class="pure-form pure-form-stacked" name="masstext" id="masstext" action="#">
+    <fieldset>
+      <label for="numbers">
+        Recipients
+        <output id="numbers-output" for="numbers" aria-hidden="true"></output>
+      </label>
 
-    <p aria-hidden="true">
-      <b>Cost</b>:
-      $0.0075/SMS
-      <output id="cost-output" for="masstext"></output>
-    </p>
-
-    <form class="pure-form pure-form-stacked" name="masstext" id="masstext" action="#">
-      <fieldset>
-        <label for="numbers">
-          Recipients
-          <output id="numbers-output" for="numbers" aria-hidden="true"></output>
-        </label>
-
-        <p class="pure-form-message">
-          A list of phone numbers, each on a new line.
-          Puncutation, duplicate numbers, and invalid numbers will be ignored.
-        </p>
-
-        <textarea id="numbers" name="numbers"></textarea>
-      </fieldset>
-
-      <fieldset>
-        <label for="message">
-          Message
-          <output id="message-output" for="message" aria-hidden="true"></output>
-        </label>
-
-        <textarea id="message" name="message"></textarea>
-      </fieldset>
-
-      <p class="warning">
-        <strong>Before sending a mass text, send yourself a test</strong>
+      <p class="pure-form-message">
+        A list of phone numbers, each on a new line.
+        Puncutation, duplicate numbers, and invalid numbers will be ignored.
       </p>
 
-      <input class="pure-button pure-button-primary" id="send_button" type="submit" value="Send message(s)">
-    </form>
+      <textarea id="numbers" name="numbers"></textarea>
+    </fieldset>
 
-    <h3>Status</h3>
-    <pre id="logs"></pre>
-  </main>
+    <fieldset>
+      <label for="message">
+        Message
+        <output id="message-output" for="message" aria-hidden="true"></output>
+      </label>
 
-  <footer>
-    <a href="https://github.com/jackwillis/lyco/">Source code</a>
-  </footer>
+      <textarea id="message" name="message"></textarea>
+    </fieldset>
 
-</html>
+    <p class="warning">
+      <strong>Before sending a mass text, send yourself a test</strong>
+    </p>
+
+    <input class="pure-button pure-button-primary" id="send_button" type="submit" value="Send message(s)">
+  </form>
+
+  <h3>Status</h3>
+  <pre id="logs"></pre>
+</main>

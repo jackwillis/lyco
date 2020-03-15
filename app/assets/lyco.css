@@ -12,11 +12,11 @@ header, main, footer {
   margin: 1em 0;
 }
 
-header nav ul {
+nav ul {
   padding: 0;
 }
 
-header nav ul li {
+nav ul li {
   list-style: none;
   display: inline;
 }
@@ -43,7 +43,7 @@ label {
 }
 
 h1, h2, h3 {
-  color: red;
+  font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
 }
 
 body {
