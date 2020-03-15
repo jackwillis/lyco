@@ -22,6 +22,4 @@ end
 set :username, require_env("HTTP_BASIC_USERNAME")
 set :password, require_env("HTTP_BASIC_PASSWORD")
 
-set :instance_name, ENV["INSTANCE_NAME"]
-
 set :log, Logger.new(STDOUT)

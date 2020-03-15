@@ -23,3 +23,5 @@ require_relative "../app/controllers/websockets"
 
 set :public_folder, File.join(File.dirname(__FILE__), "..", "app", "assets")
 set :views,         File.join(File.dirname(__FILE__), "..", "app", "views")
+
+set :instance_name, ENV["INSTANCE_NAME"]
