@@ -4,6 +4,8 @@ body {
 
   font-size: 125%;
   line-height: 1.5;
+
+  padding: 0.5em;
 }
 
 header, main, footer {
@@ -28,16 +30,6 @@ label {
   font-weight: bold;
 }
 
-.dynamic {
-  font-weight: initial;
-  line-height: 0;
-}
-
-.dynamic, textarea {
-  font-family: monospace;
-  font-size: 125%;
-}
-
 .warning {
   background: #fdb900;
   padding: 0.25em;
@@ -48,4 +40,21 @@ label {
   overflow: scroll;
   border: 2px inset gray;
   padding: 0.5em;
+}
+
+h1, h2, h3 {
+  color: red;
+}
+
+body {
+  font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+}
+
+output, textarea {
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+}
+
+output {
+  font-weight: initial;
+  margin-left: 1em;
 }

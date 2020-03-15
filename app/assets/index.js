@@ -66,24 +66,23 @@ $(function() {
   }
 
   var COST_PER_TEXT = 0.0075;
-  var GSM7_REGEX = new RegExp("^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&amp;'()*+,\\-./:;&lt;=&gt;?¡ÄÖÑÜ§¿äöñüà]*$");
+  var GSM7_REGEX = new RegExp("^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;&lt;=&gt;?¡ÄÖÑÜ§¿äöñüà]*$");
 
   function updateNumCounters() {
     var message = getMessage();
     var addresses = getNumberOfAddresses();
-    var isGsm7 = GSM7_REGEX.test(message);
 
     // https://www.twilio.com/docs/glossary/what-is-ucs-2-character-encoding
+    var isGsm7 = GSM7_REGEX.test(message);
+    var encoding = isGsm7 ? 'GSM-7' : 'UCS-2';
     var charsPerSegment = isGsm7 ? 153 : 67;
+
     var numSegments = Math.ceil(message.length / charsPerSegment);
-
-    $("#potnums").html(addresses);
-    $("#charcount").html(message.length);
-    $("#encoding").html(isGsm7 ? 'GSM-7' : 'UCS-2');
-    $("#numparts").html(numSegments);
-
     var cost = COST_PER_TEXT * addresses * numSegments;
-    $("#cost").html(dollarFormat(cost));
+
+    $("#cost-output").html(dollarFormat(cost));
+    $("#numbers-output").html(addresses);
+    $("#message-output").html(message.length + " chars; " + encoding + "; " + numSegments + " segments");
   }
 
   updateNumCounters();

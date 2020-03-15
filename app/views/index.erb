@@ -27,14 +27,15 @@
 
     <p aria-hidden="true">
       <b>Cost</b>:
-      $0.0075/SMS <span class="dynamic">(<span id="cost"></span>)</span>
+      $0.0075/SMS
+      <output id="cost-output" for="masstext"></output>
     </p>
 
     <form class="pure-form pure-form-stacked" name="masstext" id="masstext" action="#">
       <fieldset>
         <label for="numbers">
           Recipients
-          <span class="dynamic" aria-hidden="true">(<span id="potnums">0</span>)</span>
+          <output id="numbers-output" for="numbers" aria-hidden="true"></output>
         </label>
 
         <p class="pure-form-message">
@@ -48,11 +49,7 @@
       <fieldset>
         <label for="message">
           Message
-          <span class="dynamic" aria-hidden="true">
-            (<span id="charcount"></span> chars;
-            <span id="encoding"></span>;
-            <span id="numparts"></span> segments)
-          </span>
+          <output id="message-output" for="message" aria-hidden="true"></output>
         </label>
 
         <textarea id="message" name="message"></textarea>
