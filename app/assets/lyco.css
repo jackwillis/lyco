@@ -46,8 +46,6 @@ label {
 #logs {
   height: 24em;
   overflow: scroll;
-  border-style: solid;
-  border-color: gray;
-  border-width: 0 2px;
-  padding: 0.25em;
+  border: 2px inset gray;
+  padding: 0.5em;
 }
