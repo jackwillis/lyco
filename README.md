@@ -1,6 +1,6 @@
 # Lyco
 
-Lyco (new name pending) is a web app for sending SMS messages to a large batch of recipients (mass texting).
+Lyco a.k.a. MassTextMachine is a web app for sending SMS messages to a large batch of recipients (mass texting).
 It is specific to the SMS provider Twilio.
 It is built with the Ruby programming language and the Sinatra web framework.
 
@@ -48,8 +48,16 @@ bundle exec rspec
 
 ## Goals
 
-* Get rid of dependency on `sinatra-websocket`
-* Full RSpec coverage and tests for JS
+* Change user activity logging
+  * Store user logs in a database
+  * Use AJAX polling to update user log view
+  * Get rid of dependency on sinatra-websocket
+* Change block behavior
+  * Don't forward `STOP` messages
+  * Store blocked users in a database
+  * Don't try to send messages to blocked users
+* Get rid of dependency on jQuery
+* Write full RSpec coverage and tests for JS
 * Improve authentication
 
 ## Dependencies and licenses
