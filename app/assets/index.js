@@ -68,6 +68,10 @@ $(function() {
   var COST_PER_TEXT = 0.0075;
   var GSM7_REGEX = new RegExp("^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;&lt;=&gt;?¡ÄÖÑÜ§¿äöñüà]*$");
 
+  function padToHundredsPlace(integer) {
+    return integer.toString().padStart(3, 0);
+  }
+
   function updateNumCounters() {
     var message = getMessage();
     var addresses = getNumberOfAddresses();
@@ -81,8 +85,11 @@ $(function() {
     var cost = COST_PER_TEXT * addresses * numSegments;
 
     $("#cost-output").html(dollarFormat(cost));
-    $("#numbers-output").html(addresses);
-    $("#message-output").html(message.length + " chars; " + encoding + "; " + numSegments + " segments");
+    $("#numbers-output").html(padToHundredsPlace(addresses));
+    $("#message-output").html(
+      padToHundredsPlace(message.length) + "/" + padToHundredsPlace(charsPerSegment) + " chars; " +
+      encoding + "; " + numSegments + " segments"
+    );
   }
 
   updateNumCounters();
