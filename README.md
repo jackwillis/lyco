@@ -8,9 +8,11 @@ It is built with the Ruby programming language and the Sinatra web framework.
 
 ## Installation
 
-1. [Install Ruby](https://www.ruby-lang.org/en/downloads/) and [set up a Redis server](https://redis.io/topics/quickstart).
+1. [Download](https://www.ruby-lang.org/en/downloads/) or check (`ruby -v`) for Ruby 2.7.0.
 
-2. Download the repository and install the RubyGem bundle.
+2. [Set up](https://redis.io/topics/quickstart) or provision a Redis server.
+
+3. Download this repository and install the RubyGem bundle.
 
 ```
 git clone git@github.com:jackwillis/lyco.git
@@ -20,7 +22,7 @@ bundle install
 
 ## Usage
 
-1. Set up the proper environment variables:
+1. Set up the environment variables:
 
 Name | Description
 --- | ---
@@ -30,7 +32,7 @@ Name | Description
 `HTTP_BASIC_USERNAME` | [HTTP Basic Auth](https://demo.twilio.com/welcome/sms/) username for your lyco instance (this is a single-user app)
 `HTTP_BASIC_PASSWORD` | HTTP Basic Auth password
 `REDIS_URL` | URL of your Redis instance, e.g. `redis://127.0.0.1:6379`
-`INSTANCE_NAME` | The name of your instance, e.g. `My Great Organization` (optional)
+`INSTANCE_NAME` | (optional) The name of your instance, e.g. `My Great Organization`
 
 2. Start the web server with `bundle exec rackup`.
 
