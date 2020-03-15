@@ -2,23 +2,20 @@ body {
   max-width: 48em;
   margin: 1em auto;
 
-  font-size: 125%;
+  font-size: 100%;
   line-height: 1.5;
 
   padding: 0.5em;
 }
 
+@media(min-width: 800px) {
+  body {
+    font-size: 125%;
+  }
+}
+
 header, main, footer {
   margin: 1em 0;
-}
-
-nav ul {
-  padding: 0;
-}
-
-nav ul li {
-  list-style: none;
-  display: inline;
 }
 
 textarea {

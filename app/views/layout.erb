@@ -13,9 +13,9 @@
 <body>
 
   <header>
-    <h1>MassTextingMachine</h1>
-    <% if @instance_name %>
-      <p><%= @instance_name %></p>
+    <h1>Mass<wbr>Texting<wbr>Machine</h1>
+    <% if settings.instance_name %>
+      <p><%= settings.instance_name %> (<%= settings.sender %>)</p>
     <% end %>
   </header>
 
