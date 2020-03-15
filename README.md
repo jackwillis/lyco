@@ -45,6 +45,12 @@ RSpec tests cover most of the server code.
 bundle exec rspec
 ```
 
+## Goals
+
+* Get rid of dependency on `sinatra-websocket`
+* Full RSpec coverage and tests for JS
+* Improve authentication
+
 ## Dependencies and licenses
 
 Name | via | License
@@ -58,12 +64,19 @@ Name | via | License
 [Pure CSS](https://purecss.io/) | [app/assets/pure.min.css](app/assets/pure.min.css) | [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 [sinatra-websocket](https://github.com/gruis/sinatra-websocket) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT)
 
-This is free software licensed under the terms of the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0), version 3 or later.
+### Copyright
 
-© Copyright Jack Willis 2017–2020
+Copyleft 🄯 2017–2020 Jack Willis
 
-## Goals
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
 
-* Get rid of dependency on `sinatra-websocket`
-* Full RSpec coverage and tests for JS
-* Improve authentication
+This program is distributed in the hope that it will be useful,
+but **without any warranty**; without even the implied warranty of
+**merchantability** or **fitness for a particular purpose**.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
