@@ -70,6 +70,8 @@ Viewing the activity logs requires Javascript.
 * Use HTML flash messages so the app gives users more feedback and works better without Javascript.
 * Write full RSpec coverage and tests for JS
 * Improve authentication
+* Create Rakefile
+* 
 
 ## Dependencies and licenses
 

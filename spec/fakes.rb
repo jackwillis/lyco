@@ -1,16 +1,17 @@
 # Fakes the Twilio REST client:
 #
+# > c = FakeTwilioRESTClient.new
+# REPLACES
 # > c = Twilio::REST::Client.new(account_sid, auth_token)
-# OR
-# > c = FakeSMSClient.new
 #
+# SO YOU CAN DO
 # > c.messages.create(from: a, to: b, body: c)
 #
 # THEN ALSO
 # > c.delivered
 #=> [{ from: a, to: b, body: c }]
 
-class FakeSMSClient
+class FakeTwilioRESTClient
   attr_reader :delivered
 
   def initialize
@@ -32,10 +33,11 @@ end
 
 # Fakes the Redis class:
 #
+# > r = FakeRedis.new
+# REPLACES
 # > r = Redis.new
-# OR
-# > r = FakeRedisClient.new
 # 
+# THEN
 # > r.set('foo', 'bar')
 #=> 'bar'
 # > r.get('foo')
@@ -43,7 +45,7 @@ end
 # > r.get('baz')
 #=> nil
 
-class FakeRedisClient
+class FakeRedis
   def initialize
     @data = {}
   end

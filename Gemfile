@@ -4,12 +4,8 @@ ruby "2.7.0"
 
 gem "sinatra", "~> 2"
 gem "sinatra-websocket", "~> 0.3"
-
-# These gems are faked during testing (see spec/fakes.rb)
-group :faked do
-  gem "redis", "~> 4"
-  gem "twilio-ruby", "~> 5"
-end
+gem "redis", "~> 4"
+gem "twilio-ruby", "~> 5"
 
 group :test do
   gem "rspec", "~> 3"

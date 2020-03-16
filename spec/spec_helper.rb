@@ -8,9 +8,9 @@ SimpleCov.start
 require_relative 'fakes'
 
 # Fake environment variables
-set :sms_client, FakeSMSClient.new
+set :sms_client, FakeTwilioRESTClient.new
 set :log, Logger.new(StringIO.new)
-set :redis, FakeRedisClient.new
+set :redis, FakeRedis.new
 set :username, 'foo'
 set :password, 'bar'
 set :sender, '15005550006'
@@ -38,7 +38,7 @@ RSpec.configure do |config|
   end
 
   def db
-    settings.db
+    settings.settings_db
   end
 
   config.before(:each) do |example|
