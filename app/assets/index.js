@@ -1,5 +1,32 @@
-$(function() {
+// mini jQuery
+var $$ = function (q) {
+  var els = document.querySelectorAll(q);
+  if (els.length == 1) {
+    return els[0];
+  }
+  else {
+    return els;
+  }
+};
 
+// AJAX POST
+$$.post = function(url, data, onload, onerror) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    if (this.status >= 200 && this.status < 400) {
+      onload(this);
+    }
+    else {
+      onerror(this);
+    }
+  };
+  xhr.send(encodeURI(data));
+  return xhr;
+};
+
+document.addEventListener("DOMContentLoaded", function() {
   ////////////////
   // Websocket connection
   ////////////////
