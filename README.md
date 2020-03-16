@@ -1,11 +1,15 @@
 # Lyco
 
 Lyco a.k.a. MassTextMachine is a web app for sending SMS messages to a large batch of recipients (mass texting).
-
-It requires the Ruby programming language, a Redis database, and an account with the SMS provider Twilio.
-On the server, it uses the Sinatra web framework, and in the browser, it uses jQuery.
+It requires an account with the SMS service provider Twilio.
 
 ![Build status](https://travis-ci.org/jackwillis/lyco.svg?branch=master)
+
+The web server is written in the Ruby language. It requires a Redis database.
+Heroku and other web hosts have free plans for Ruby and Redis.
+
+The server code depends on the Sinatra web framework,
+and the browser code depends on jQuery.
 
 ## Local installation
 
