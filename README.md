@@ -26,7 +26,8 @@ bundle install
 
 ## Usage
 
-1. Run the web server (`bundle exec rackup`) with these environment variables set:
+1. Run the web server with `bundle exec rackup`. (`config.ru` is the entry point.)
+The command must be run with these environment variables set:
 
 Name | Description
 --- | ---

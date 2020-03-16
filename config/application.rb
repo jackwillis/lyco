@@ -3,8 +3,11 @@ require 'logger'
 require 'bundler'
 Bundler.require(:default)
 
-set :public_folder, File.join(File.dirname(__FILE__), '..', 'app', 'assets')
-set :views,         File.join(File.dirname(__FILE__), '..', 'app', 'views')
+# `set :a, b` lets us access global settings within Sinatra routes with `settings.a`
+
+app_folder = File.join(File.dirname(__FILE__), '..', 'app')
+set :public_folder, File.join(app_folder, 'assets')
+set :views, File.join(app_folder, 'views')
 
 set :instance_name, ENV['INSTANCE_NAME']
 
@@ -16,8 +19,8 @@ end
 
 require_relative 'environment' unless testing?
 
+require_relative 'default_settings'
 require_relative '../app/models/settings'
-require_relative 'seeds'
 set :settings_db, SettingsDatabase.new(settings.redis)
 
 require_relative '../app/controllers/application_controller'
