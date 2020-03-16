@@ -5,7 +5,8 @@ It requires an account with the SMS service provider Twilio.
 
 ![Build status](https://travis-ci.org/jackwillis/lyco.svg?branch=master)
 
-The web server is written in the Ruby language. It requires a Redis database.
+The web server is written in the Ruby language.
+It requires a Redis database.
 Heroku and other web hosts have free plans for Ruby and Redis.
 
 The server code depends on the Sinatra web framework,
@@ -14,6 +15,7 @@ and the browser code depends on jQuery.
 ## Local installation
 
 1. [Download](https://www.ruby-lang.org/en/downloads/) or check (`ruby -v`) for Ruby 2.3 or greater.
+Ruby works on Windows, but works better on Linux and macOS.
 
 2. [Set up](https://redis.io/topics/quickstart) or provision a Redis server.
 
@@ -27,7 +29,7 @@ bundle install
 
 ## Usage
 
-1. Set up the environment variables:
+1. Run the web server (`bundle exec rackup`) with these environment variables set:
 
 Name | Description
 --- | ---
@@ -39,9 +41,7 @@ Name | Description
 `REDIS_URL` | URL of your Redis instance, e.g. `redis://127.0.0.1:6379`
 `INSTANCE_NAME` | (optional) The name of your instance, e.g. `My Great Organization`
 
-2. Start the web server with `bundle exec rackup`.
-
-3. To make use of the auto-reply/forwarding feature,
+2. To make use of the auto-reply/forwarding feature,
 make sure your web server is publicly accessible and using HTTPS.  
 Set your Twilio "Inbound Request Config" setting to `https://` + `<username>` + `:` + `<password>` + `@` + `<host>` + `/echo`.
 
