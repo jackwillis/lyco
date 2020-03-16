@@ -3,7 +3,7 @@ const COST_PER_TEXT = 0.0075;
 const GSM7_REGEX = new RegExp("^[A-Za-z0-9 \r\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<>?¡ÄÖÑÜ§¿äöñüà]*$");
 
 // mini jQuery
-function $$(q) {
+function $(q) {
   var els = document.querySelectorAll(q);
   return (els.length === 1) ? els[0] : els;
 };
@@ -49,11 +49,11 @@ function logToUser(message) {
   var date = new Date();
   var dateString = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
   var node = document.createTextNode('[' + dateString + '] ' + message);
-  $$('#logs').prepend(node);
+  $('#logs').prepend(node);
 }
 
 // Unhide the logs part of the page
-var logsWrapper = $$('#logs-wrapper');
+var logsWrapper = $('#logs-wrapper');
 if (logsWrapper) { // are we on a page with logs?
   logsWrapper.hidden = false
   logsWrapper.setAttribute('aria-live', 'polite'); // screen reader 
@@ -67,11 +67,11 @@ if (logsWrapper) { // are we on a page with logs?
 ////////////////
 
 function getMessage() {
-  return $$("#message").value.trim();
+  return $("#message").value.trim();
 }
 
 function getNumberOfAddresses() {
-  var potNums = $$("#numbers").value;
+  var potNums = $("#numbers").value;
   var matches = (potNums.match(/^.*?\S/gm) || []);
   return matches.length;
 }
@@ -96,9 +96,9 @@ function updateNumCounters() {
   var numSegments = Math.ceil(message.length / charsPerSegment);
   var cost = COST_PER_TEXT * addresses * numSegments;
 
-  $$('#cost-output').innerText = dollarFormat(cost);
-  $$('#numbers-output').innerText = padToHundredsPlace(addresses);
-  $$('#message-output').innerText = (
+  $('#cost-output').innerText = dollarFormat(cost);
+  $('#numbers-output').innerText = padToHundredsPlace(addresses);
+  $('#message-output').innerText = (
     padToHundredsPlace(message.length) + '/' + padToHundredsPlace(charsPerSegment) + ' chars; ' +
     encoding + '; ' + numSegments + ' segments'
   );
@@ -106,8 +106,11 @@ function updateNumCounters() {
 
 updateNumCounters();
 
-$("#numbers").bind("input propertychange", updateNumCounters);
-$("#message").bind("input propertychange", updateNumCounters);
+$('#numbers').addEventListener('input', updateNumCounters);
+$('#numbers').addEventListener('propertychange', updateNumCounters);
+
+$('#message').addEventListener('input', updateNumCounters);
+$('#message').addEventListener('propertychange', updateNumCounters);
 
 ////////////////
 // Form validation and XHR
@@ -136,8 +139,8 @@ function sendFormXHR(event) {
   event.preventDefault();
 
   if (validateForm() && getUserConfirmation()) {
-    var data = 'numbers=' + encodeURIComponent($$('#numbers').value)
-             + '&message=' + encodeURIComponent($$('#message').value);
+    var data = 'numbers=' + encodeURIComponent($('#numbers').value)
+             + '&message=' + encodeURIComponent($('#message').value);
 
     fetch('/', {
       method: 'POST',
@@ -151,4 +154,4 @@ function sendFormXHR(event) {
   }
 }
 
-$$('#send_button').addEventListener("click", sendFormXHR);
+$('#send_button').addEventListener("click", sendFormXHR);

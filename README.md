@@ -5,12 +5,9 @@ It requires an account with the SMS service provider Twilio.
 
 ![Build status](https://travis-ci.org/jackwillis/lyco.svg?branch=master)
 
-The web server is written in the Ruby language.
+The web server is written in the Ruby language, using the Sinatra web framework and structured like a Rails app.
 It requires a Redis database.
 Heroku and other web hosts have free plans for Ruby and Redis.
-
-The server code depends on the Sinatra web framework,
-and the browser code depends on jQuery.
 
 ## Local installation
 
@@ -68,7 +65,7 @@ Viewing the activity logs requires Javascript.
   * Don't forward `STOP` messages
   * Store list of unsubscribed users in a database
   * Don't try to send messages to unsubscribed users (wastes money)
-* Get rid of dependency on jQuery
+* ~~Get rid of dependency on jQuery~~
 * Write full RSpec coverage and tests for JS
 * Improve authentication
 
@@ -81,7 +78,6 @@ Name | via | License
 [Redis](https://redis.io/) | | [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 [redis-rb](https://github.com/redis/redis-rb) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT)
 [twilio-ruby](https://www.twilio.com/docs/libraries/ruby) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT)
-[jQuery](https://jquery.com/) | [app/assets/jquery-3.4.1.min.js](app/assets/jquery-3.4.1.min.js) | [MIT](https://opensource.org/licenses/MIT)
 [Pure CSS](https://purecss.io/) | [app/assets/pure.min.css](app/assets/pure.min.css) | [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 [sinatra-websocket](https://github.com/gruis/sinatra-websocket) | [Gemfile](Gemfile) | [MIT](https://opensource.org/licenses/MIT)
 

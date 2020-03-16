@@ -30,7 +30,7 @@ label {
 }
 
 #logs {
-  height: 32em;
+  height: 85vh;
   overflow: scroll;
   border: 2px inset gray;
   padding: 0.5em;
