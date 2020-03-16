@@ -35,7 +35,7 @@ Name | Description
 --- | ---
 `TWILIO_ACCOUNT_SID` | Twilio Account SID
 `TWILIO_AUTH_TOKEN` | [Twilio Auth Token](https://support.twilio.com/hc/en-us/articles/223136027-Auth-Tokens-and-How-to-Change-Them)
-`TWILIO_SENDER` | Twilio phone number
+`TWILIO_SENDER` | Your Twilio phone number. In development, use `+15005550006`.
 `HTTP_BASIC_USERNAME` | [HTTP Basic Auth](https://demo.twilio.com/welcome/sms/) username for your lyco instance (this is a single-user app)
 `HTTP_BASIC_PASSWORD` | HTTP Basic Auth password
 `REDIS_URL` | URL of your Redis instance, e.g. `redis://127.0.0.1:6379`

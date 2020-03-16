@@ -1,24 +1,11 @@
+// constants
+const COST_PER_TEXT = 0.0075;
+const GSM7_REGEX = new RegExp("^[A-Za-z0-9 \r\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<>?¡ÄÖÑÜ§¿äöñüà]*$");
+
 // mini jQuery
 function $$(q) {
   var els = document.querySelectorAll(q);
   return (els.length === 1) ? els[0] : els;
-};
-
-// AJAX POST
-$$.post = (url, data, onload, onerror) => {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', url);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onload = () => {
-    if (this.status >= 200 && this.status < 400) {
-      onload(this);
-    }
-    else {
-      onerror(this);
-    }
-  };
-  xhr.send(encodeURI(data));
-  return xhr;
 };
 
 ///Websockets
@@ -58,19 +45,21 @@ function retryIfClosed(callback) {
 // Logs
 ////////////////
 
+function logToUser(message) {
+  var date = new Date();
+  var dateString = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+  var node = document.createTextNode('[' + dateString + '] ' + message);
+  $$('#logs').prepend(node);
+}
+
 // Unhide the logs part of the page
 var logsWrapper = $$('#logs-wrapper');
-console.log(logsWrapper);
 if (logsWrapper) { // are we on a page with logs?
   logsWrapper.hidden = false
   logsWrapper.setAttribute('aria-live', 'polite'); // screen reader 
 
   // Append text each time we get data from the websocket
-  setWs((message) => {
-    var logs = $("#logs");
-    logs.append(message);
-    logs.scrollTop(logs.prop("scrollHeight"));
-  }); 
+  setWs(logToUser); 
 }
 
 ////////////////
@@ -91,9 +80,6 @@ function dollarFormat(amount) {
   return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 }
 
-var COST_PER_TEXT = 0.0075;
-var GSM7_REGEX = new RegExp("^[A-Za-z0-9 \\r\\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;&lt;=&gt;?¡ÄÖÑÜ§¿äöñüà]*$");
-
 function padToHundredsPlace(integer) {
   return integer.toString().padStart(3, 0);
 }
@@ -110,11 +96,11 @@ function updateNumCounters() {
   var numSegments = Math.ceil(message.length / charsPerSegment);
   var cost = COST_PER_TEXT * addresses * numSegments;
 
-  $("#cost-output").html(dollarFormat(cost));
-  $("#numbers-output").html(padToHundredsPlace(addresses));
-  $("#message-output").html(
-    padToHundredsPlace(message.length) + "/" + padToHundredsPlace(charsPerSegment) + " chars; " +
-    encoding + "; " + numSegments + " segments"
+  $$('#cost-output').innerText = dollarFormat(cost);
+  $$('#numbers-output').innerText = padToHundredsPlace(addresses);
+  $$('#message-output').innerText = (
+    padToHundredsPlace(message.length) + '/' + padToHundredsPlace(charsPerSegment) + ' chars; ' +
+    encoding + '; ' + numSegments + ' segments'
   );
 }
 
@@ -133,8 +119,7 @@ function validateForm() {
     return false;
   }
 
-  var messageIsEmpty = $("#message")[0].value.trim().length === 0;
-  if (messageIsEmpty) {
+  if (getMessage().length === 0) {
     alert("Message cannot be empty.");
     return false;
   }
@@ -146,21 +131,24 @@ function getUserConfirmation() {
   return confirm("Really send texts to " + getNumberOfAddresses() + " potential numbers?");
 }
 
+// Validate the form, then use XHR to submit it, to avoid reloading the page
 function sendFormXHR(event) {
-  // Don't reload the page
   event.preventDefault();
 
   if (validateForm() && getUserConfirmation()) {
-    var form = $("#masstext");
-    var data = form.serialize();
+    var data = 'numbers=' + encodeURIComponent($$('#numbers').value)
+             + '&message=' + encodeURIComponent($$('#message').value);
 
-    // Use XHR to submit the data
-    $.post("/", data, function() {
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data
+    }).then(() => {
       console.log("Request sent");
-    }).fail(function() {
+    }, () => {
       logToUser("Request failed to send\n");
     });
   }
 }
 
-$("#send_button").on("click", sendFormXHR);
+$$('#send_button').addEventListener("click", sendFormXHR);

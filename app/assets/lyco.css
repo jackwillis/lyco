@@ -1,11 +1,8 @@
 body {
-  max-width: 48em;
   margin: 1em auto;
-
+  padding: 0.5em;
   font-size: 100%;
   line-height: 1.5;
-
-  padding: 0.5em;
 }
 
 @media(min-width: 800px) {
@@ -33,7 +30,7 @@ label {
 }
 
 #logs {
-  height: 24em;
+  height: 32em;
   overflow: scroll;
   border: 2px inset gray;
   padding: 0.5em;

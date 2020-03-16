@@ -28,16 +28,11 @@ def process_texts(numbers:, message:)
 
   contacts.each do |contact|
     begin
-      yield "Sending message to #{contact}"
-      
+      yield "Sending message to #{contact}\n"
       send_sms!(to: contact, body: message)
-
-      yield " [OK]\n"
-
       num_contacted += 1
     rescue => e
       num_errors += 1
-
       yield " [Error] #{e.message}\n"
     end
   end

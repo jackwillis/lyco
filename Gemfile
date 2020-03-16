@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby ">= 2.3", "< 3"
+ruby "2.7.0"
 
 gem "sinatra", "~> 2"
 gem "sinatra-websocket", "~> 0.3"
