@@ -58,77 +58,77 @@ function retryIfClosed(callback) {
 }
 
 ////////////////
-// Logs
+// Logs controller
 //
 // Unhide the logs part of the page
 // and display incoming websocket messages
 ////////////////
 
-var logsWrapper = $('#logs-wrapper');
+function log(message) {
+  const date = new Date();
+  const dateString = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+  const text = '[' + dateString + '] ' + message;
+  const logs = $('#logs');
+  return logs && logs.prepend(document.createTextNode(text));
+}
+
+let logsWrapper = $('#logs-wrapper');
 
 if (logsWrapper) {
   logsWrapper.hidden = false;
   logsWrapper.setAttribute('aria-live', 'polite'); // screen reader 
 
   // Append text each time we get data from the websocket
-  setWs((message) => {
-    var date = new Date();
-    var dateString = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
-    var node = document.createTextNode('[' + dateString + '] ' + message);
-    $('#logs').prepend(node);
-  });
+  setWs(log);
 }
 
-////////////////
-// Compose form
-////////////////
+//////////////////////
+// Compose controller
+//////////////////////
 
-var masstext = $('#masstext');
+let masstext = $('#masstext');
 
 if (masstext) {
-  var numbers = $('#numbers');
-  var message = $('#message');
+  const numbers = $('#numbers');
+  const message = $('#message');
 
-  var getMessageText = () => message.value.trim();
-  var getNumAddresses = () => (numbers.value.match(/^.*\S/gm) || []).length;
+  function getMessageText() {
+    return message.value.trim();
+  }
 
-  // Address count, message length, and cost counters
-
-  function dollarFormat(amount) {
-    return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  function getNumAddresses() {
+    return (numbers.value.match(/^.*\S/gm) || []).length;
   }
 
   function padToHundredsPlace(integer) {
     return integer.toString().padStart(3, 0);
   }
 
-  function updateNumCounters() {
-    var messageText = getMessageText();
-    var numAddresses = getNumAddresses();
+  // Address count, message length, and cost counters
+
+  function updateMassTextCounters() {
+    const messageText = getMessageText();
+    const numAddresses = getNumAddresses();
 
     // https://www.twilio.com/docs/glossary/what-is-ucs-2-character-encoding
-    var isGsm7 = GSM7_REGEX.test(messageText);
-    var encoding = isGsm7 ? 'GSM-7' : 'UCS-2';
-    var charsPerSegment = isGsm7 ? 153 : 67;
+    const isGsm7 = GSM7_REGEX.test(messageText);
+    const encoding = isGsm7 ? 'GSM-7' : 'UCS-2';
+    const charsPerSegment = isGsm7 ? 153 : 67;
+    const messageLength = messageText.length;
+    const numSegments = Math.ceil(messageLength / charsPerSegment);
+    const cost = COST_PER_TEXT * numAddresses * numSegments;
+    const costFormatted = cost.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
-    var numSegments = Math.ceil(getMessageText().length / charsPerSegment);
     $('#numbers-output').innerText = padToHundredsPlace(numAddresses);
-
-    var cost = COST_PER_TEXT * numAddresses * numSegments;
-    $('#cost-output') .innerText = dollarFormat(cost);
-    
-    var lengthMessage = padToHundredsPlace(messageText.length) + '/'
+    $('#cost-output') .innerText = costFormatted;
+    $('#message-output').innerText = padToHundredsPlace(messageLength) + '/'
     + padToHundredsPlace(charsPerSegment) + ' chars; '
     + encoding + '; ' + numSegments + ' segments';
-    $('#message-output').innerText = lengthMessage;
   }
 
-  updateNumCounters();
-
-  [numbers, message].forEach((el) => {
-    el.addEventListener('input', updateNumCounters);
-    el.addEventListener('propertychange', updateNumCounters);
-  });
+  updateMassTextCounters();
+  masstext.addEventListener('input', updateMassTextCounters);
+  masstext.addEventListener('propertychange', updateMassTextCounters);
 
   // Form validation and XHR
 
@@ -150,25 +150,20 @@ if (masstext) {
     return confirm("Really send texts to " + getNumAddresses() + " potential numbers?");
   }
 
-  // Validate the form, then use XHR to submit it, to avoid reloading the page
-  function sendFormXHR(event) {
+  // Custom behavior for submitting the form.
+  // Validate the form, confirm action with popup, then use AJAX to submit the form.
+  // This avoids reloading the page.
+  function submitForm(event) {
     event.preventDefault();
 
     if (validateForm() && getUserConfirmation()) {
-      var data = 'numbers=' + encodeURIComponent($('#numbers').value)
-               + '&message=' + encodeURIComponent($('#message').value);
-
       fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: data
-      }).then(() => {
-        console.log("Request sent");
-      }, () => {
-        logToUser("Request failed to send\n");
-      });
+        body: 'numbers=' + encodeURIComponent(numbers.value)
+        + '&message=' + encodeURIComponent(message.value)
+      }).then(() => log("Request sent\n"), () => log("Request failed to send\n"));
     }
   }
-
-  $('#send_button').addEventListener("click", sendFormXHR);
+  masstext.addEventListener('submit', submitForm);
 }
