@@ -7,5 +7,5 @@ class SettingsDatabase
 
   DEFAULT_REPLIES_FORWARDEE = '15005550006'
 
-  DEFAULT_AUTOREPLY_MODE = true
+  DEFAULT_AUTOREPLY_MODE = false
 end
