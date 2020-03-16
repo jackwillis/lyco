@@ -1,11 +1,27 @@
+/*
+lyco.js - part of https://github.com/jackwillis/lyco/
+Copyright (C) 2020 Jack Willis
+
+lyco is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+*/
+
+'use strict';
+
 // constants
 const COST_PER_TEXT = 0.0075;
 const GSM7_REGEX = new RegExp("^[A-Za-z0-9 \r\n@£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A9\u03A0\u03A8\u03A3\u0398\u039EÆæßÉ!\"#$%&'()*+,\\-./:;<>?¡ÄÖÑÜ§¿äöñüà]*$");
 
 // mini jQuery
 function $(q) {
-  var els = document.querySelectorAll(q);
-  return (els.length === 1) ? els[0] : els;
+  const els = document.querySelectorAll(q);
+  switch (els.length) {
+    case 0: return null;
+    case 1: return els[0];
+    default: return els;
+  }
 };
 
 ///Websockets
@@ -43,115 +59,116 @@ function retryIfClosed(callback) {
 
 ////////////////
 // Logs
+//
+// Unhide the logs part of the page
+// and display incoming websocket messages
 ////////////////
 
-function logToUser(message) {
-  var date = new Date();
-  var dateString = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
-  var node = document.createTextNode('[' + dateString + '] ' + message);
-  $('#logs').prepend(node);
-}
-
-// Unhide the logs part of the page
 var logsWrapper = $('#logs-wrapper');
-if (logsWrapper) { // are we on a page with logs?
-  logsWrapper.hidden = false
+
+if (logsWrapper) {
+  logsWrapper.hidden = false;
   logsWrapper.setAttribute('aria-live', 'polite'); // screen reader 
 
   // Append text each time we get data from the websocket
-  setWs(logToUser); 
+  setWs((message) => {
+    var date = new Date();
+    var dateString = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+    var node = document.createTextNode('[' + dateString + '] ' + message);
+    $('#logs').prepend(node);
+  });
 }
 
 ////////////////
-// Form counters
+// Compose form
 ////////////////
 
-function getMessage() {
-  return $("#message").value.trim();
-}
+var masstext = $('#masstext');
 
-function getNumberOfAddresses() {
-  var potNums = $("#numbers").value;
-  var matches = (potNums.match(/^.*?\S/gm) || []);
-  return matches.length;
-}
+if (masstext) {
+  var numbers = $('#numbers');
+  var message = $('#message');
 
-function dollarFormat(amount) {
-  return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-}
+  var getMessageText = () => message.value.trim();
+  var getNumAddresses = () => (numbers.value.match(/^.*\S/gm) || []).length;
 
-function padToHundredsPlace(integer) {
-  return integer.toString().padStart(3, 0);
-}
+  // Address count, message length, and cost counters
 
-function updateNumCounters() {
-  var message = getMessage();
-  var addresses = getNumberOfAddresses();
-
-  // https://www.twilio.com/docs/glossary/what-is-ucs-2-character-encoding
-  var isGsm7 = GSM7_REGEX.test(message);
-  var encoding = isGsm7 ? 'GSM-7' : 'UCS-2';
-  var charsPerSegment = isGsm7 ? 153 : 67;
-
-  var numSegments = Math.ceil(message.length / charsPerSegment);
-  var cost = COST_PER_TEXT * addresses * numSegments;
-
-  $('#cost-output').innerText = dollarFormat(cost);
-  $('#numbers-output').innerText = padToHundredsPlace(addresses);
-  $('#message-output').innerText = (
-    padToHundredsPlace(message.length) + '/' + padToHundredsPlace(charsPerSegment) + ' chars; ' +
-    encoding + '; ' + numSegments + ' segments'
-  );
-}
-
-updateNumCounters();
-
-$('#numbers').addEventListener('input', updateNumCounters);
-$('#numbers').addEventListener('propertychange', updateNumCounters);
-
-$('#message').addEventListener('input', updateNumCounters);
-$('#message').addEventListener('propertychange', updateNumCounters);
-
-////////////////
-// Form validation and XHR
-////////////////
-
-function validateForm() {
-  if (getNumberOfAddresses() === 0) {
-    alert("Numbers list cannot be empty.");
-    return false;
+  function dollarFormat(amount) {
+    return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   }
 
-  if (getMessage().length === 0) {
-    alert("Message cannot be empty.");
-    return false;
+  function padToHundredsPlace(integer) {
+    return integer.toString().padStart(3, 0);
   }
 
-  return true;
-}
+  function updateNumCounters() {
+    var messageText = getMessageText();
+    var numAddresses = getNumAddresses();
 
-function getUserConfirmation() {
-  return confirm("Really send texts to " + getNumberOfAddresses() + " potential numbers?");
-}
+    // https://www.twilio.com/docs/glossary/what-is-ucs-2-character-encoding
+    var isGsm7 = GSM7_REGEX.test(messageText);
+    var encoding = isGsm7 ? 'GSM-7' : 'UCS-2';
+    var charsPerSegment = isGsm7 ? 153 : 67;
 
-// Validate the form, then use XHR to submit it, to avoid reloading the page
-function sendFormXHR(event) {
-  event.preventDefault();
+    var numSegments = Math.ceil(getMessageText().length / charsPerSegment);
+    $('#numbers-output').innerText = padToHundredsPlace(numAddresses);
 
-  if (validateForm() && getUserConfirmation()) {
-    var data = 'numbers=' + encodeURIComponent($('#numbers').value)
-             + '&message=' + encodeURIComponent($('#message').value);
-
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: data
-    }).then(() => {
-      console.log("Request sent");
-    }, () => {
-      logToUser("Request failed to send\n");
-    });
+    var cost = COST_PER_TEXT * numAddresses * numSegments;
+    $('#cost-output') .innerText = dollarFormat(cost);
+    
+    var lengthMessage = padToHundredsPlace(messageText.length) + '/'
+    + padToHundredsPlace(charsPerSegment) + ' chars; '
+    + encoding + '; ' + numSegments + ' segments';
+    $('#message-output').innerText = lengthMessage;
   }
-}
 
-$('#send_button').addEventListener("click", sendFormXHR);
+  updateNumCounters();
+
+  [numbers, message].forEach((el) => {
+    el.addEventListener('input', updateNumCounters);
+    el.addEventListener('propertychange', updateNumCounters);
+  });
+
+  // Form validation and XHR
+
+  function validateForm() {
+    if (getNumAddresses() === 0) {
+      alert("Numbers list cannot be empty.");
+      return false;
+    }
+
+    if (getMessageText() === 0) {
+      alert("Message cannot be empty.");
+      return false;
+    }
+
+    return true;
+  }
+
+  function getUserConfirmation() {
+    return confirm("Really send texts to " + getNumAddresses() + " potential numbers?");
+  }
+
+  // Validate the form, then use XHR to submit it, to avoid reloading the page
+  function sendFormXHR(event) {
+    event.preventDefault();
+
+    if (validateForm() && getUserConfirmation()) {
+      var data = 'numbers=' + encodeURIComponent($('#numbers').value)
+               + '&message=' + encodeURIComponent($('#message').value);
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: data
+      }).then(() => {
+        console.log("Request sent");
+      }, () => {
+        logToUser("Request failed to send\n");
+      });
+    }
+  }
+
+  $('#send_button').addEventListener("click", sendFormXHR);
+}
