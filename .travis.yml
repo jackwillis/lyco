@@ -1,4 +1,4 @@
 language: ruby
 rvm:
   - 2.7.0
-script: DISABLE_SIMPLECOV=true bundle exec rspec
+script: bundle exec rspec
