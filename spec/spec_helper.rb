@@ -5,7 +5,7 @@ ENV['RACK_ENV'] = 'test'
 require 'bundler'
 Bundler.require(:default, :test)
 
-SimpleCov.start unless ENV['DISABLE_SIMPLECOV']
+SimpleCov.start
 
 require_relative 'fakes'
 require_relative 'environment'
