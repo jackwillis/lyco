@@ -46,10 +46,10 @@ describe 'settings controller' do
 
   it 'redirects to the settings page after posting', with_db: true do
     params_examples = [
-        {},
-        { invalid: 'yes' },
-        { automated_reply: 'foo' },
-        { automated_reply: 'foo', replies_forwardee: 'bar' }
+      {},
+      { invalid: 'yes' },
+      { automated_reply: 'foo' },
+      { automated_reply: 'foo', replies_forwardee: 'bar' }
     ]
 
     params_examples.each do |params|
@@ -60,5 +60,4 @@ describe 'settings controller' do
       expect(last_request.path).to eq(settings_path)
     end
   end
-
 end

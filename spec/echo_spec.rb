@@ -7,15 +7,15 @@ describe 'echo controller controller' do
     get echo_path, { From: '15551234567', Body: 'thanks!' }
 
     expect(sms_client.delivered).to eq([{
-      from: sender, to: settings_db.replies_forwardee, body: '15551234567\'s reply: thanks!'
-    }])
+                                         from: sender, to: settings_db.replies_forwardee, body: '15551234567\'s reply: thanks!'
+                                       }])
   end
 
   it 'rejects invalid requests to the echo hook', with_sms: true do
     params_examples = [
-        {},
-        { From: '15551234567' },
-        { Body: 'test' }
+      {},
+      { From: '15551234567' },
+      { Body: 'test' }
     ]
   end
 
@@ -38,12 +38,12 @@ describe 'echo controller controller' do
   end
 
   it 'rejects invalid requests to the echo hook', with_db: true do
-    settings_db.autoreply_mode = true    
+    settings_db.autoreply_mode = true
 
     params_examples = [
-        {},
-        { From: '15551234567' },
-        { Body: 'test' }
+      {},
+      { From: '15551234567' },
+      { Body: 'test' }
     ]
     params_examples.each do |params|
       get echo_path, params
@@ -58,5 +58,4 @@ describe 'echo controller controller' do
       with_tag :message, text: settings_db.automated_reply
     end
   end
-
 end

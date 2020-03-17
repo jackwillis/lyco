@@ -1,6 +1,6 @@
 get "/settings" do
   @automated_reply = settings.settings_db.automated_reply
-  @replies_forwardee = settings.settings_db.replies_forwardee 
+  @replies_forwardee = settings.settings_db.replies_forwardee
   @autoreply_mode = settings.settings_db.autoreply_mode?
 
   erb :settings

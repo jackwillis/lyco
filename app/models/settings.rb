@@ -50,5 +50,4 @@ class SettingsDatabase
     self.replies_forwardee = DEFAULT_REPLIES_FORWARDEE
     self.autoreply_mode = DEFAULT_AUTOREPLY_MODE
   end
-
 end

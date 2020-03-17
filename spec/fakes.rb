@@ -36,7 +36,7 @@ end
 # > r = FakeRedis.new
 # REPLACES
 # > r = Redis.new
-# 
+#
 # THEN
 # > r.set('foo', 'bar')
 #=> 'bar'

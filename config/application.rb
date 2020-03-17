@@ -14,7 +14,7 @@ set :instance_name, ENV['INSTANCE_NAME']
 # Are we being loaded by automated tests?
 def testing?
   ENV["APP_ENV"] == 'test' ||
-  ENV["RACK_ENV"] == 'test'
+    ENV["RACK_ENV"] == 'test'
 end
 
 require_relative 'environment' unless testing?
