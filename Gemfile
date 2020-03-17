@@ -8,7 +8,7 @@ gem 'sinatra-websocket', '~> 0.3'
 gem 'twilio-ruby', '~> 5'
 
 group :development do
-  gem 'pry', '~> 0'
+  gem 'pry'
   gem 'rake', '~> 13'
   gem 'rubocop', '~> 0'
 end
