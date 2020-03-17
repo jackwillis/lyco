@@ -1,8 +1,8 @@
-get "/" do
+get '/' do
   erb :index
 end
 
-post "/" do
+post '/' do
   numbers = params[:numbers].to_s
   message = params[:message].to_s
 
@@ -17,7 +17,7 @@ end
 
 def process_texts(numbers:, message:)
   contacts = parse_contacts(numbers)
-  message = message.strip.normalize_newlines
+  message = message.strip.encode(encoding, universal_newline: true)
 
   begin_msg = "Sending a #{message.length}-character message to #{contacts.length} contacts"
   settings.log.info(begin_msg)
@@ -27,14 +27,12 @@ def process_texts(numbers:, message:)
   num_errors = 0
 
   contacts.each do |contact|
-    begin
-      yield "Sending message to #{contact}\n"
-      send_sms!(to: contact, body: message)
-      num_contacted += 1
-    rescue => e
-      num_errors += 1
-      yield " [Error] #{e.message}\n"
-    end
+    yield "Sending message to #{contact}\n"
+    send_sms!(to: contact, body: message)
+    num_contacted += 1
+  rescue StandardError => e
+    num_errors += 1
+    yield " [Error] #{e.message}\n"
   end
 
   yield "Done. Sent #{num_contacted} messages, #{num_errors} errors.\n"
@@ -49,17 +47,7 @@ end
 def parse_contacts(numbers_string)
   numbers_string
     .split("\n")
-    .map { |c| normalize_number(c) }
+    .map { |c| c.gsub(/\D/, '') }
     .reject(&:empty?)
     .uniq
-end
-
-class String
-  def normalize_newlines
-    encode(encoding, universal_newline: true)
-  end
-end
-
-def normalize_number(number)
-  number.gsub(/\D/, "")
 end

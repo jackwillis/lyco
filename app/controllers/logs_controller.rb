@@ -1,5 +1,3 @@
-require "sinatra-websocket"
-
 set :sockets, []
 
 def send_ws(msg)
@@ -10,7 +8,7 @@ def send_ws(msg)
   end
 end
 
-get "/ws" do
+get '/ws' do
   request.websocket do |ws|
     ws.onopen do
       ws.send("Connected\n")
@@ -18,7 +16,7 @@ get "/ws" do
     end
 
     ws.onclose do
-      warn("websocket closed")
+      warn('websocket closed')
       settings.sockets.delete(ws)
     end
   end
@@ -27,6 +25,6 @@ end
 # heartbeat
 EM.next_tick do
   EM.add_periodic_timer(2) do
-    send_ws "__ping__"
+    send_ws '__ping__'
   end
 end

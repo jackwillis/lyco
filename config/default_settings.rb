@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SettingsDatabase
   DEFAULT_AUTOMATED_REPLY = <<~EOF
     Hello! You have received an automated text message.

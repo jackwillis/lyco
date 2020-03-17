@@ -3,18 +3,17 @@ require 'logger'
 require 'bundler'
 Bundler.require(:default)
 
-# `set :a, b` lets us access global settings within Sinatra routes with `settings.a`
+# `set(k, v)` builds Sinatra's `settings` object...
+
+set :instance_name, ENV['INSTANCE_NAME']
 
 app_folder = File.join(File.dirname(__FILE__), '..', 'app')
 set :public_folder, File.join(app_folder, 'assets')
 set :views, File.join(app_folder, 'views')
 
-set :instance_name, ENV['INSTANCE_NAME']
-
 # Are we being loaded by automated tests?
 def testing?
-  ENV["APP_ENV"] == 'test' ||
-    ENV["RACK_ENV"] == 'test'
+  ENV['APP_ENV'] == 'test' || ENV['RACK_ENV'] == 'test'
 end
 
 require_relative 'environment' unless testing?

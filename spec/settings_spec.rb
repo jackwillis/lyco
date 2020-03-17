@@ -45,14 +45,12 @@ describe 'settings controller' do
   end
 
   it 'redirects to the settings page after posting', with_db: true do
-    params_examples = [
+    [
       {},
       { invalid: 'yes' },
       { automated_reply: 'foo' },
       { automated_reply: 'foo', replies_forwardee: 'bar' }
-    ]
-
-    params_examples.each do |params|
+    ].each do |params|
       post settings_path, params
 
       expect(last_response).to be_redirect
