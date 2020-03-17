@@ -51,12 +51,6 @@ RSpec tests cover most of the server code:
 bundle exec rspec
 ```
 
-Open the application console:
-
-```
-bundle exec rake console
-```
-
 Run the Ruby linter:
 
 ```
