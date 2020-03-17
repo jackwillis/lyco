@@ -18,6 +18,8 @@ end
 
 require_relative 'environment' unless testing?
 
+require_relative '../app/helpers'
+
 require_relative 'default_settings'
 require_relative '../app/models/settings'
 set :settings_db, SettingsDatabase.new(settings.redis)

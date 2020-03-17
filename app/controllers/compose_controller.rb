@@ -17,7 +17,7 @@ end
 
 def process_texts(numbers:, message:)
   contacts = parse_contacts(numbers)
-  message = message.strip.encode(encoding, universal_newline: true)
+  message = message.strip.normalize_newlines
 
   begin_msg = "Sending a #{message.length}-character message to #{contacts.length} contacts"
   settings.log.info(begin_msg)
