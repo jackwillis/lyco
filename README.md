@@ -43,12 +43,24 @@ Name | Description
 make sure your web server is publicly accessible and using HTTPS.  
 Set your Twilio "Inbound Request Config" setting to `https://` + `<username>` + `:` + `<password>` + `@` + `<host>` + `/echo`.
 
-## Testing
+## Development and testing
 
-RSpec tests cover most of the server code.
+RSpec tests cover most of the server code:
 
 ```
 bundle exec rspec
+```
+
+Open the application console:
+
+```
+bundle exec rake console
+```
+
+Run the Ruby linter:
+
+```
+bundle exec rubocop
 ```
 
 ## Browser support

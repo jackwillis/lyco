@@ -1,0 +1,10 @@
+#inherit_from: https://relaxed.ruby.style/rubocop.yml
+
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+Style/FrozenStringLiteralComment:
+  Enabled: false

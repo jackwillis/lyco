@@ -5,17 +5,10 @@ ENV['RACK_ENV'] = 'test'
 require 'bundler'
 Bundler.require(:default, :test)
 
-SimpleCov.start
+SimpleCov.start unless ENV['DISABLE_SIMPLECOV']
 
 require_relative 'fakes'
-
-# Fake environment variables
-set :sms_client, FakeTwilioRESTClient.new
-set :log, Logger.new(StringIO.new)
-set :redis, FakeRedis.new
-set :username, 'foo'
-set :password, 'bar'
-set :sender, '15005550006'
+require_relative 'environment'
 
 # Bring in the application
 require_relative '../config/application'
