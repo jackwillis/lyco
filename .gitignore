@@ -2,3 +2,5 @@ data/reply.txt
 data/forwardee.txt
 dump.rdb
 coverage/
+node_modules/
+*.log

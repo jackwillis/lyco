@@ -1,0 +1,24 @@
+{
+  "name": "lyco",
+  "version": "0.0.1",
+  "description": "Lyco a.k.a. MassTextMachine is a web app for sending SMS messages to a large batch of recipients (mass texting). It requires an account with the SMS service provider Twilio.",
+  "main": "app/assets/lyco.js",
+  "dependencies": {},
+  "devDependencies": {
+    "standard": "^14.3.3"
+  },
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackwillis/lyco.git"
+  },
+  "author": "Jack Willis",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jackwillis/lyco/issues"
+  },
+  "homepage": "https://github.com/jackwillis/lyco#readme",
+  "private": true
+}

@@ -63,6 +63,13 @@ Run the Ruby linter:
 bundle exec rubocop
 ```
 
+To run the Javascript linter, have [NodeJS](https://nodejs.org/) installed,
+do `npm install` and run:
+
+```
+npm run test
+```
+
 ## Browser support
 
 Lyco works on all current web browsers.
