@@ -3,15 +3,16 @@
 Lyco a.k.a. MassTextMachine is a web app for sending SMS messages to a large batch of recipients (mass texting).
 It requires an account with the SMS service provider Twilio.
 
-![Build status](https://travis-ci.org/jackwillis/lyco.svg?branch=master)
+[![Build status](https://travis-ci.org/jackwillis/lyco.svg)](https://travis-ci.org/github/jackwillis/lyco/)
 
 The web server is written in the Ruby language, using the Sinatra web framework and structured like a Rails app.
 It requires a Redis database.
+
 Heroku and other web hosts have free plans for Ruby and Redis.
 
 ## Local installation
 
-1. [Download](https://www.ruby-lang.org/en/downloads/) or check (`ruby -v`) for Ruby 2.3 or greater.
+1. [Download](https://www.ruby-lang.org/en/downloads/) Ruby 2..7.0.
 Ruby works on Windows, but works better on Linux and macOS.
 
 2. [Set up](https://redis.io/topics/quickstart) or provision a Redis server.
@@ -26,7 +27,7 @@ bundle install
 
 ## Usage
 
-1. Run the web server with `bundle exec rackup`. (`config.ru` is the entry point.)
+1. Run the web server with `bundle exec rackup`.
 The command must be run with these environment variables set:
 
 Name | Description
@@ -49,6 +50,12 @@ RSpec tests cover most of the server code:
 
 ```
 bundle exec rspec
+```
+
+Open the application console:
+
+```
+bundle exec rake console
 ```
 
 Run the Ruby linter:
@@ -82,10 +89,10 @@ Viewing the activity logs requires Javascript.
 * ~~Get rid of dependency on jQuery~~
 * Use ES2016+ Javascript features.
 * Use HTML flash messages so the app gives users more feedback and works better without Javascript.
-* Write full RSpec coverage and tests for JS
+* Write full RSpec coverage
+* Pass RuboCop and standard lints
+* Write tests for JS
 * Improve authentication
-* Create Rakefile
-* 
 
 ## Dependencies and licenses
 
