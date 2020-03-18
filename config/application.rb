@@ -3,7 +3,8 @@ require 'logger'
 require 'bundler'
 Bundler.require(:default)
 
-# `set(k, v)` builds Sinatra's `settings` object...
+# This is a Sinatra application.
+# Read more about `set`: http://sinatrarb.com/configuration.html
 
 set :instance_name, ENV['INSTANCE_NAME']
 
@@ -23,6 +24,9 @@ require_relative '../app/helpers'
 require_relative 'default_settings'
 require_relative '../app/models/settings'
 set :settings_db, SettingsDatabase.new(settings.redis)
+
+require_relative '../app/models/activity_log'
+set :activity_log, ActivityLog.new(settings.redis)
 
 require_relative '../app/controllers/application_controller'
 require_relative '../app/controllers/compose_controller'

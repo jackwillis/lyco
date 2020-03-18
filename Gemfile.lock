@@ -99,7 +99,7 @@ DEPENDENCIES
   redis (~> 4)
   rspec (~> 3)
   rspec-html-matchers (~> 0)
-  rubocop (~> 0)
+  rubocop
   simplecov (~> 0)
   sinatra (~> 2)
   sinatra-websocket (~> 0.3)

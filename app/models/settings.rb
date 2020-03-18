@@ -32,7 +32,7 @@ class SettingsDatabase
 
   def autoreply_mode=(state)
     raise ArgumentError, 'state must be boolean' \
-      unless state == !!state
+      unless [true, false].include? state
 
     @redis.set(:lyco_autoreply_mode, state.to_s)
   end
