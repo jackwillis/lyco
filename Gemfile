@@ -9,6 +9,8 @@ gem 'twilio-ruby', '~> 5'
 
 group :development do
   gem 'rubocop', '~> 0'
+  gem 'pry'
+  gem 'rake'
 end
 
 group :test do
