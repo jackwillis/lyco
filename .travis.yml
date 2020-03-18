@@ -1,4 +1,8 @@
 language: ruby
 rvm:
   - 2.7.0
-script: bundle exec rspec
+install:
+  - npm install
+script:
+  - bundle exec rspec
+  - npm run test

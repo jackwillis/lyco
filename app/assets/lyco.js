@@ -86,73 +86,18 @@ if (logsWrapper) {
 /// ///////////////////
 
 const masstext = $('#masstext')
+const numbers = $('#numbers')
+const message = $('#message')
 
 if (masstext) {
-  const numbers = $('#numbers')
-  const message = $('#message')
-
-  function getMessageText () {
-    return message.value.trim()
-  }
-
-  function getNumAddresses () {
-    return (numbers.value.match(/^.*\S/gm) || []).length
-  }
-
-  function padToHundredsPlace (integer) {
-    return integer.toString().padStart(3, 0)
-  }
-
-  // Address count, message length, and cost counters
-
-  function updateMassTextCounters () {
-    const messageText = getMessageText()
-    const numAddresses = getNumAddresses()
-
-    // https://www.twilio.com/docs/glossary/what-is-ucs-2-character-encoding
-    const isGsm7 = GSM7_REGEX.test(messageText)
-    const encoding = isGsm7 ? 'GSM-7' : 'UCS-2'
-    const charsPerSegment = isGsm7 ? 153 : 67
-    const messageLength = messageText.length
-    const numSegments = Math.ceil(messageLength / charsPerSegment)
-    const cost = COST_PER_TEXT * numAddresses * numSegments
-    const costFormatted = cost.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
-
-    $('#numbers-output').innerText = padToHundredsPlace(numAddresses)
-    $('#cost-output').innerText = costFormatted
-    $('#message-output').innerText = padToHundredsPlace(messageLength) + '/' +
-    padToHundredsPlace(charsPerSegment) + ' chars; ' +
-    encoding + '; ' + numSegments + ' segments'
-  }
-
   updateMassTextCounters()
   masstext.addEventListener('input', updateMassTextCounters)
   masstext.addEventListener('propertychange', updateMassTextCounters)
 
-  // Form validation and XHR
-
-  function validateForm () {
-    if (getNumAddresses() === 0) {
-      alert('Numbers list cannot be empty.')
-      return false
-    }
-
-    if (getMessageText() === 0) {
-      alert('Message cannot be empty.')
-      return false
-    }
-
-    return true
-  }
-
-  function getUserConfirmation () {
-    return confirm('Really send texts to ' + getNumAddresses() + ' potential numbers?')
-  }
-
   // Custom behavior for submitting the form.
   // Validate the form, confirm action with popup, then use AJAX to submit the form.
   // This avoids reloading the page.
-  function submitForm (event) {
+  masstext.addEventListener('submit', (event) => {
     event.preventDefault()
 
     if (validateForm() && getUserConfirmation()) {
@@ -163,6 +108,59 @@ if (masstext) {
         '&message=' + encodeURIComponent(message.value)
       }).then(() => log('Request sent\n'), () => log('Request failed to send\n'))
     }
+  })
+}
+
+function getMessageText () {
+  return message.value.trim()
+}
+
+function getNumAddresses () {
+  return (numbers.value.match(/^.*\S/gm) || []).length
+}
+
+function padToHundredsPlace (integer) {
+  return integer.toString().padStart(3, 0)
+}
+
+// Address count, message length, and cost counters
+
+function updateMassTextCounters () {
+  const messageText = getMessageText()
+  const numAddresses = getNumAddresses()
+
+  // https://www.twilio.com/docs/glossary/what-is-ucs-2-character-encoding
+  const isGsm7 = GSM7_REGEX.test(messageText)
+  const encoding = isGsm7 ? 'GSM-7' : 'UCS-2'
+  const charsPerSegment = isGsm7 ? 153 : 67
+  const messageLength = messageText.length
+  const numSegments = Math.ceil(messageLength / charsPerSegment)
+  const cost = COST_PER_TEXT * numAddresses * numSegments
+  const costFormatted = cost.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+
+  $('#numbers-output').innerText = padToHundredsPlace(numAddresses)
+  $('#cost-output').innerText = costFormatted
+  $('#message-output').innerText = padToHundredsPlace(messageLength) + '/' +
+  padToHundredsPlace(charsPerSegment) + ' chars; ' +
+  encoding + '; ' + numSegments + ' segments'
+}
+
+// Form validation and XHR
+
+function validateForm () {
+  if (getNumAddresses() === 0) {
+    alert('Numbers list cannot be empty.')
+    return false
   }
-  masstext.addEventListener('submit', submitForm)
+
+  if (getMessageText() === 0) {
+    alert('Message cannot be empty.')
+    return false
+  }
+
+  return true
+}
+
+function getUserConfirmation () {
+  return confirm('Really send texts to ' + getNumAddresses() + ' potential numbers?')
 }
