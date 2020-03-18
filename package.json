@@ -11,10 +11,7 @@
     "test": "standard"
   },
   "standard": {
-    "globals": [ "alert", "confirm", "fetch", "WebSocket" ],
-    "rules": {
-      "no-control-regex": "off"
-    }
+    "globals": [ "alert", "confirm", "fetch", "WebSocket" ]
   },
   "author": "Jack Willis",
   "license": "AGPL-3.0",

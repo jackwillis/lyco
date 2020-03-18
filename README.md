@@ -80,7 +80,6 @@ Viewing the activity logs requires Javascript.
   * Store list of unsubscribed users in a database
   * Don't try to send messages to unsubscribed users (wastes money)
 * ~~Get rid of dependency on jQuery~~
-* Use ES2016+ Javascript features.
 * Use HTML flash messages so the app gives users more feedback and works better without Javascript.
 * Write full RSpec coverage
 * Pass RuboCop and standard lints

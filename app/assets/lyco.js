@@ -86,8 +86,18 @@ if (logsWrapper) {
 /// ///////////////////
 
 const masstext = $('#masstext')
-const numbers = $('#numbers')
-const message = $('#message')
+
+function getMessage () {
+  return $('#message').value.trim()
+}
+
+function getAddresses () {
+  return $('#numbers').value.trim()
+}
+
+function getNumAddresses () {
+  return ($('#numbers').value.match(/^.*\S/gm) || []).length
+}
 
 if (masstext) {
   updateMassTextCounters()
@@ -97,50 +107,32 @@ if (masstext) {
   // Custom behavior for submitting the form.
   // Validate the form, confirm action with popup, then use AJAX to submit the form.
   // This avoids reloading the page.
-  masstext.addEventListener('submit', (event) => {
+  masstext.addEventListener('submit', function (event) {
     event.preventDefault()
 
     if (validateForm() && getUserConfirmation()) {
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'numbers=' + encodeURIComponent(numbers.value) +
-        '&message=' + encodeURIComponent(message.value)
-      }).then(() => log('Request sent\n'), () => log('Request failed to send\n'))
+      sendForm()
     }
   })
-}
-
-function getMessageText () {
-  return message.value.trim()
-}
-
-function getNumAddresses () {
-  return (numbers.value.match(/^.*\S/gm) || []).length
-}
-
-function padToHundredsPlace (integer) {
-  return integer.toString().padStart(3, 0)
 }
 
 // Address count, message length, and cost counters
 
 function updateMassTextCounters () {
-  const messageText = getMessageText()
+  const message = getMessage()
   const numAddresses = getNumAddresses()
 
   // https://www.twilio.com/docs/glossary/what-is-ucs-2-character-encoding
-  const isGsm7 = GSM7_REGEX.test(messageText)
+  const isGsm7 = GSM7_REGEX.test(message)
   const encoding = isGsm7 ? 'GSM-7' : 'UCS-2'
   const charsPerSegment = isGsm7 ? 153 : 67
-  const messageLength = messageText.length
-  const numSegments = Math.ceil(messageLength / charsPerSegment)
+  const numSegments = Math.ceil(message.length / charsPerSegment)
   const cost = COST_PER_TEXT * numAddresses * numSegments
   const costFormatted = cost.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 
   $('#numbers-output').innerText = padToHundredsPlace(numAddresses)
   $('#cost-output').innerText = costFormatted
-  $('#message-output').innerText = padToHundredsPlace(messageLength) + '/' +
+  $('#message-output').innerText = padToHundredsPlace(message.length) + '/' +
   padToHundredsPlace(charsPerSegment) + ' chars; ' +
   encoding + '; ' + numSegments + ' segments'
 }
@@ -153,7 +145,7 @@ function validateForm () {
     return false
   }
 
-  if (getMessageText() === 0) {
+  if (getMessage() === 0) {
     alert('Message cannot be empty.')
     return false
   }
@@ -163,4 +155,20 @@ function validateForm () {
 
 function getUserConfirmation () {
   return confirm('Really send texts to ' + getNumAddresses() + ' potential numbers?')
+}
+
+function sendForm () {
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'numbers=' + encodeURIComponent(getAddresses()) +
+    '&message=' + encodeURIComponent(getMessage())
+  }).then(
+    () => log('Request sent\n'),
+    () => log('Request failed to send\n')
+  )
+}
+
+function padToHundredsPlace (integer) {
+  return integer.toString().padStart(3, 0)
 }
