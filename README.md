@@ -3,16 +3,13 @@
 Lyco a.k.a. MassTextMachine is a web app for sending SMS messages to a large batch of recipients (mass texting).
 It requires an account with the SMS service provider Twilio.
 
+The web server is written in the Ruby language and requires a Redis database.
+
 [![Build status](https://travis-ci.org/jackwillis/lyco.svg)](https://travis-ci.org/github/jackwillis/lyco/)
-
-The web server is written in the Ruby language, using the Sinatra web framework and structured like a Rails app.
-It requires a Redis database.
-
-Heroku and other web hosts have free plans for Ruby and Redis.
 
 ## Local installation
 
-1. [Download](https://www.ruby-lang.org/en/downloads/) Ruby 2..7.0.
+1. [Download](https://www.ruby-lang.org/en/downloads/) Ruby 2.7.0.
 Ruby works on Windows, but works better on Linux and macOS.
 
 2. [Set up](https://redis.io/topics/quickstart) or provision a Redis server.
@@ -46,16 +43,12 @@ Set your Twilio "Inbound Request Config" setting to `https://` + `<username>` + 
 
 ## Development and testing
 
+This app uses the Sinatra web framework and is structured kind of like a Rails app.
+
 RSpec tests cover most of the server code:
 
 ```
 bundle exec rspec
-```
-
-Open the application console:
-
-```
-bundle exec rake console
 ```
 
 Run the Ruby linter:
