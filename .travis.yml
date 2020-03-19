@@ -2,7 +2,8 @@ language: ruby
 rvm:
   - 2.7.0
 install:
-  - bundle install --path vendor/cache
+  - bundle config set path 'vendor/cache'
+  - bundle install
   - npm install
 script:
   - bundle exec rspec

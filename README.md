@@ -5,7 +5,7 @@ It requires an account with the SMS service provider Twilio.
 
 The web server is written in the Ruby language and requires a Redis database.
 
-[![Build status](https://travis-ci.org/jackwillis/lyco.svg)](https://travis-ci.org/github/jackwillis/lyco/)
+[![Build status](https://travis-ci.org/jackwillis/lyco.svg?branch=master)](https://travis-ci.org/github/jackwillis/lyco/)
 
 ## Local installation
 
