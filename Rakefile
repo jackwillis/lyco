@@ -10,6 +10,6 @@ task :console do
   ENV['RACK_ENV'] = 'test'
   require_relative 'spec/fakes'
   require_relative 'spec/environment'
-  require_relative 'config/application'
+  require_relative 'application'
   Pry.start
 end

@@ -10,10 +10,6 @@ License, or (at your option) any later version.
 
 'use strict'
 
-// constants
-const COST_PER_TEXT = 0.0075
-const GSM7_REGEX = new RegExp("^[A-Za-z0-9 @£$¥èéùìòÇØøÅåΦ_ΦΓΛΩΠΨΣΘΞÆæßÉ!\"#$%&'()*+,\\-./:;<>?¡ÄÖÑÜ§¿äöñüà]*$", 'm')
-
 // mini jQuery
 function $ (q) {
   const els = document.querySelectorAll(q)
@@ -22,7 +18,7 @@ function $ (q) {
     case 1: return els[0]
     default: return els
   }
-};
+}
 
 /// Websockets
 
@@ -118,6 +114,9 @@ if (masstext) {
 
 // Address count, message length, and cost counters
 
+const COST_PER_TEXT = 0.0075
+const GSM7_REGEX = new RegExp("^[A-Za-z0-9 @£$¥èéùìòÇØøÅåΦ_ΦΓΛΩΠΨΣΘΞÆæßÉ!\"#$%&'()*+,\\-./:;<>?¡ÄÖÑÜ§¿äöñüà]*$", 'm')
+
 function updateMassTextCounters () {
   const message = getMessage()
   const numAddresses = getNumAddresses()
@@ -137,15 +136,13 @@ function updateMassTextCounters () {
   encoding + '; ' + numSegments + ' segments'
 }
 
-// Form validation and XHR
-
 function validateForm () {
   if (getNumAddresses() === 0) {
     alert('Numbers list cannot be empty.')
     return false
   }
 
-  if (getMessage() === 0) {
+  if (getMessage().length === 0) {
     alert('Message cannot be empty.')
     return false
   }

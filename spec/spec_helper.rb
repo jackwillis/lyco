@@ -9,7 +9,7 @@ require_relative 'fakes'
 require_relative 'environment'
 
 # Bring in the application
-require_relative '../config/application'
+require_relative '../application'
 
 module LycoRSpecHelpers
   def app
