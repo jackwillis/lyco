@@ -10,6 +10,13 @@ License, or (at your option) any later version.
 
 'use strict'
 
+// https://www.twilio.com/sms/pricing/us
+const COST_PER_TEXT = 0.0075
+
+// https://www.twilio.com/docs/glossary/what-is-gsm-7-character-encoding
+// https://en.wikipedia.org/wiki/GSM_03.38
+const GSM7_REGEX = new RegExp("^[A-Za-z0-9 @£$¥èéùìòÇØøÅåΦ_ΦΓΛΩΠΨΣΘΞÆæßÉ!\"#$%&'()*+,\\-./:;<>?¡ÄÖÑÜ§¿äöñüà]*$", 'm')
+
 // mini jQuery
 function $ (q) {
   const els = document.querySelectorAll(q)
@@ -113,9 +120,6 @@ if (masstext) {
 }
 
 // Address count, message length, and cost counters
-
-const COST_PER_TEXT = 0.0075
-const GSM7_REGEX = new RegExp("^[A-Za-z0-9 @£$¥èéùìòÇØøÅåΦ_ΦΓΛΩΠΨΣΘΞÆæßÉ!\"#$%&'()*+,\\-./:;<>?¡ÄÖÑÜ§¿äöñüà]*$", 'm')
 
 function updateMassTextCounters () {
   const message = getMessage()
