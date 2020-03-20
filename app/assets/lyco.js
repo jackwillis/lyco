@@ -18,13 +18,13 @@ const COST_PER_TEXT = 0.0075
 const GSM7_REGEX = new RegExp("^[A-Za-z0-9 @£$¥èéùìòÇØøÅåΦ_ΦΓΛΩΠΨΣΘΞÆæßÉ!\"#$%&'()*+,\\-./:;<>?¡ÄÖÑÜ§¿äöñüà]*$", 'm')
 
 // mini jQuery
+
 function $ (q) {
-  const els = document.querySelectorAll(q)
-  switch (els.length) {
-    case 0: return null
-    case 1: return els[0]
-    default: return els
-  }
+  return document.querySelector(q) || null
+}
+
+function $$ (q) {
+  return document.querySelectorAll(q)
 }
 
 /// Websockets
@@ -103,9 +103,10 @@ function getNumAddresses () {
 }
 
 if (masstext) {
-  updateMassTextCounters()
-  masstext.addEventListener('input', updateMassTextCounters)
-  masstext.addEventListener('propertychange', updateMassTextCounters)
+  masstext.addEventListener('input', function () {
+    updateMassTextCounters()
+    masstext.dataset.saved = false
+  })
 
   // Custom behavior for submitting the form.
   // Validate the form, confirm action with popup, then use AJAX to submit the form.
@@ -115,8 +116,11 @@ if (masstext) {
 
     if (validateForm() && getUserConfirmation()) {
       sendForm()
+      masstext.dataset.saved = true
     }
   })
+
+  updateMassTextCounters()
 }
 
 // Address count, message length, and cost counters
@@ -172,4 +176,13 @@ function sendForm () {
 
 function padToHundredsPlace (integer) {
   return integer.toString().padStart(3, 0)
+}
+
+// Warn user before losing work
+// https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onbeforeunload
+window.onbeforeunload = function () {
+  // Display message if there's any <form data-saved="false"> elements
+  if ($$('form[data-saved=false]').length > 0) {
+    return true
+  }
 }
