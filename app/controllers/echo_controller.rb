@@ -22,7 +22,7 @@ end
 
 def automated_reply_xml
   autoreply_disabled = !settings.settings_db.autoreply_mode?
-  autoreply_message_empty = settings.settings_db.automated_reply_message.to_s.empty?
+  autoreply_message_empty = settings.settings_db.automated_reply.to_s.empty?
   return 204 if autoreply_disabled || autoreply_message_empty
 
   content_type :xml
