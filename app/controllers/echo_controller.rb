@@ -21,7 +21,9 @@ def forward_incoming_message!(from:, body:)
 end
 
 def automated_reply_xml
-  return 204 unless settings.settings_db.autoreply_mode?
+  if settings.settings_db.automated_reply_message.to_s.empty? && !settings.settings_db.autoreply_mode?
+    return 204
+  end
 
   content_type :xml
 
